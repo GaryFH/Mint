@@ -1,0 +1,267 @@
+---
+title: "Mint Data Processing"
+author: "GaryFH"
+date: "February 8, 2018"
+output: html_document
+editor_options: 
+  chunk_output_type: console
+---
+
+
+
+
+###Setup environment
+
+```{r, message=FALSE,warning=FALSE}
+suppressWarnings(library(dplyr))
+
+```
+
+
+###Look at income and try to reconcile - note that $5,000 of interest income was cashed and not part of Mint income.
+
+```{r, message=FALSE,warning=FALSE}
+
+
+d1<-tbl_df(read.csv("transactions02082018.csv"))
+d1$Date<- as.Date(d1$Date,format="%m/%d/%Y")
+d1<-filter(d1,Date>=as.Date("2017-01-01")&Date<=as.Date("2017-12-31"))
+
+d2<-filter(d1,Transaction.Type=="credit")
+
+d222<-filter(d2,Category=="appraisal income")
+print(paste("Total Interest Income = ","$",sum(d222$Amount),sep=""))
+
+d223<-filter(d2,Category=="Interest Income")
+print(paste("Total Interest Income = ","$",(sum(d223$Amount)+5000),sep=""))
+
+d2b<-group_by(d2,Category)
+print(summarise(d2b,sum(Amount)),n=nrow(d2b))
+print(summarise(group_by(d2,Description),sum(Amount)),n=nrow(d2))
+#View(filter(d2b,Category=="Interest Income"))
+#View(filter(d2b,Category=="appraisal income"))
+#View(filter(d2b,Category=="Reimbursement"))
+#View(filter(d2b,Description=="Thank You"))
+
+```
+
+
+###Overview of all Categories
+
+```{r, message=FALSE,warning=FALSE}
+d11<-group_by(d1,Category)
+print(summarise(d11,sum(Amount)),n=nrow(d11))
+
+
+```
+
+
+###Total Health Insurance
+
+```{r, message=FALSE,warning=FALSE}
+d4<-filter(d1,Category=="Health Insurance")
+d4<-select(d4,Date,Description,Amount)
+d44<-d4
+d45<-mutate(d44,z="`")
+d45<-select(d45,Date,Description,z,Amount)
+d45$Amount<- sprintf("$ %7.2f", d45$Amount)
+print(d45,n=nrow(d45))
+print(paste("Total paid to Health Insurance = $",sum(d4$Amount),sep = ""))
+
+```
+
+###Health Savings Account
+
+```{r, message=FALSE,warning=FALSE}
+dd4<-filter(d1,Category=="HealthSavingsAccount")
+dd4<-select(dd4,Date,Original.Description,Amount)
+dd44<-dd4
+dd45<-mutate(dd44,z="`")
+dd45<-select(dd45,Date,Original.Description,z,Amount)
+dd45$Amount<- sprintf("$ %7.2f", dd45$Amount)
+print(dd45,n=nrow(dd45))
+print(paste("Total paid to Health Savings Account = $",sum(dd4$Amount),sep = ""))
+
+```
+
+
+###Total Business Meals
+
+```{r, message=FALSE,warning=FALSE}
+d3<-filter(d1,Category=="Business Meals")
+d3<-select(d3,Date,Original.Description,Amount)
+d33<-d3
+d33<-mutate(d33,z="`")
+d33<-select(d33,Date,Original.Description,z,Amount)
+d33$Amount<- sprintf("$ %7.2f", d33$Amount)
+print(d33,n=nrow(d33))
+print(paste("Total Business Meals = $",sum(d3$Amount),sep = ""))
+
+```
+
+
+
+###Business phone/internet
+
+```{r, message=FALSE,warning=FALSE}
+
+dd5<-filter(d1,Category=="bus phone/internet")
+dd5<-select(dd5,Date,Original.Description,Amount)
+dd55<-dd5
+dd55<-mutate(dd55,z="`")
+dd55<-select(dd55,Date,Original.Description,z,Amount)
+dd55$Amount<- sprintf("$ %7.2f", dd55$Amount)
+print(dd55,n=nrow(dd55))
+print(paste("Total paid to Business Phone/Internet = $",sum(dd5$Amount),sep = ""))
+
+
+```
+
+
+###Business Travel
+
+```{r, message=FALSE,warning=FALSE}
+
+dd6<-filter(d1,Category=="Business Travel")
+dd6<-select(dd6,Date,Original.Description,Amount)
+dd66<-dd6
+dd66<-mutate(dd66,z="`")
+dd66<-select(dd66,Date,Original.Description,z,Amount)
+dd66$Amount<- sprintf("$ %7.2f", dd66$Amount)
+print(dd66,n=nrow(dd66))
+print(paste("Total paid to Business Travel = $",sum(dd6$Amount),sep = ""))
+
+
+```
+
+
+###Office Supplies
+
+```{r, message=FALSE,warning=FALSE}
+
+d8<-filter(d1,Category=="Office Supplies")
+d8<-select(d8,Date,Original.Description,Amount)
+d88<-d8
+d88<-mutate(d88,z="`")
+d88<-select(d88,Date,Original.Description,z,Amount)
+d88$Amount<- sprintf("$ %7.2f", d88$Amount)
+print(d88,n=nrow(d88))
+print(paste("Total paid to Office Supplies = $",sum(d8$Amount),sep = ""))
+
+
+```
+
+
+
+###Charity
+
+```{r, message=FALSE,warning=FALSE}
+
+d6<-filter(d1,Category=="Charity")
+d6<-select(d6,Date,Description,Amount)
+d66<-d6
+d66<-mutate(d66,z="`")
+d66<-select(d66,Date,Description,z,Amount)
+d66$Amount<- sprintf("$ %9.2f", d66$Amount)
+print(d66,n=nrow(d66))
+print(paste("Total paid to Charity = $",sum(d6$Amount),sep = ""))
+
+
+```
+
+
+###Doctor&Dentist
+
+```{r, message=FALSE,warning=FALSE}
+
+d7<-filter(d1,Category=="Doctor" | Category=="Dentist")
+d7<-select(d7,Date,Category,Description,Amount)
+d77<-d7
+d77<-mutate(d77,z="`")
+d77<-select(d77,Date,Category,Description,z,Amount)
+d77$Amount<- sprintf("$ %7.2f", d77$Amount)
+print(d77,n=nrow(d77))
+print(paste("Total paid to Doctor and Dentist = $",sum(d7$Amount),sep = ""))
+
+
+```
+
+
+
+###Driver Cost
+
+```{r, message=FALSE,warning=FALSE}
+
+d8<-filter(d1,Category=="Driver cost")
+d8<-select(d8,Date,Original.Description,Amount)
+d88<-d8
+d88<-mutate(d88,z="`")
+d88<-select(d88,Date,Original.Description,z,Amount)
+d88$Amount<- sprintf("$ %7.2f", d88$Amount)
+print(d88,n=nrow(d88))
+print(paste("Total paid to Driver costs = $",sum(d8$Amount),sep = ""))
+
+
+```
+
+
+###Estimated Federal & State tax payments
+
+```{r, message=FALSE,warning=FALSE}
+
+dd7<-filter(d1,Category=="Federal Tax" | Category=="State Tax")
+dd7<-select(dd7,Date,Category,Original.Description,Amount,Notes)
+dd77<-dd7
+dd77<-mutate(dd77,z="`")
+dd77<-select(dd77,Date,Category,Original.Description,z,Amount,Notes)
+dd77$Amount<- sprintf("$ %7.2f", dd77$Amount)
+print(dd77,n=nrow(dd77))
+
+
+
+```
+
+###Property and other taxes
+
+```{r, message=FALSE,warning=FALSE}
+
+d8<-filter(d1,Category=="Taxes")
+d8<-select(d8,Date,Original.Description,Amount)
+d88<-d8
+d88<-mutate(d88,z="`")
+d88<-select(d88,Date,Original.Description,z,Amount)
+d88$Amount<- sprintf("$ %7.2f", d88$Amount)
+print(d88,n=nrow(d88))
+print(paste("Total paid to property&other TAXES = $",sum(d8$Amount),sep = ""))
+
+
+```
+
+
+###Business Services,Electronics & Software,Legal,Printing,Tuition
+
+```{r, message=FALSE,warning=FALSE}
+
+d7<-filter(d1,Category=="Business Services" | Category=="Electronics & Software"| Category=="Legal"| Category=="Printing"| Category==" Tuition")
+d7<-select(d7,Date,Category,Original.Description,Amount)
+d77<-d7
+d77<-mutate(d77,z="`")
+d77<-select(d77,Date,Category,Original.Description,z,Amount)
+d77$Amount<- sprintf("$ %7.2f", d77$Amount)
+print(d77,n=nrow(d77))
+print(paste("Total paid to Various Business expenses = $",sum(d7$Amount),sep = ""))
+
+
+```
+
+
+
+
+
+```{r, message=FALSE,warning=FALSE}
+
+
+
+```
+
+
