@@ -266,8 +266,8 @@ print(summarise(d11,sum(Amount)),n=nrow(d11))</code></pre>
 ## 58 Tuition                        59.0 
 ## 59 Utilities                     150</code></pre>
 </div>
-<div id="total-health-insurance" class="section level3">
-<h3>Total Health Insurance</h3>
+<div id="total-health-insurance---subtracted-2000-from-below-to-adjust-for-non-insurance-expenses" class="section level3">
+<h3>Total Health Insurance - subtracted $2,000 from below to adjust for non insurance expenses</h3>
 <pre class="r"><code>d4&lt;-filter(d1,Category==&quot;Health Insurance&quot;)
 d4&lt;-select(d4,Date,Description,Amount)
 d44&lt;-d4
@@ -557,8 +557,8 @@ print(dd66,n=nrow(dd66))</code></pre>
 <pre class="r"><code>print(paste(&quot;Total paid to Business Travel = $&quot;,sum(dd6$Amount),sep = &quot;&quot;))</code></pre>
 <pre><code>## [1] &quot;Total paid to Business Travel = $2081.92&quot;</code></pre>
 </div>
-<div id="office-supplies" class="section level3">
-<h3>Office Supplies</h3>
+<div id="office-supplies---note-that-1350-of-the-total-below-was-for-liability-insurance." class="section level3">
+<h3>Office Supplies - note that $1350 of the total below was for liability insurance.</h3>
 <pre class="r"><code>d8&lt;-filter(d1,Category==&quot;Office Supplies&quot;)
 d8&lt;-select(d8,Date,Original.Description,Amount)
 d88&lt;-d8
@@ -765,43 +765,43 @@ print(d88,n=nrow(d88))</code></pre>
 <div id="business-serviceselectronics-softwarelegalprintingtuition" class="section level3">
 <h3>Business Services,Electronics &amp; Software,Legal,Printing,Tuition</h3>
 <pre class="r"><code>d7&lt;-filter(d1,Category==&quot;Business Services&quot; | Category==&quot;Electronics &amp; Software&quot;| Category==&quot;Legal&quot;| Category==&quot;Printing&quot;| Category==&quot; Tuition&quot;)
-d7&lt;-select(d7,Date,Category,Original.Description,Amount)
+d7&lt;-select(d7,Date,Category,Description,Amount)
 d77&lt;-d7
 d77&lt;-mutate(d77,z=&quot;`&quot;)
-d77&lt;-select(d77,Date,Category,Original.Description,z,Amount)
+d77&lt;-select(d77,Date,Category,Description,Amount)
 d77$Amount&lt;- sprintf(&quot;$ %7.2f&quot;, d77$Amount)
 print(d77,n=nrow(d77))</code></pre>
-<pre><code>## # A tibble: 28 x 5
-##    Date       Category               Original.Description    z     Amount 
-##    &lt;date&gt;     &lt;fctr&gt;                 &lt;fctr&gt;                  &lt;chr&gt; &lt;chr&gt;  
-##  1 2017-12-19 Legal                  APPRAISAL SCOPE INC 80~ `     $   21~
-##  2 2017-12-17 Legal                  COURSERA 650-265-7649 ~ `     $   49~
-##  3 2017-12-14 Business Services      MetroList El Dorado Bi~ `     $  144~
-##  4 2017-12-13 Legal                  APPRAISAL SCOPE INC 80~ `     $   21~
-##  5 2017-11-22 Legal                  APPRAISAL SCOPE INC 80~ `     $   21~
-##  6 2017-11-22 Legal                  APPRAISAL SCOPE INC 80~ `     $   21~
-##  7 2017-11-21 Legal                  ASSURANT APPRAISALS LX~ `     $    6~
-##  8 2017-11-17 Legal                  COURSERA 650-265-7649 ~ `     $   49~
-##  9 2017-11-05 Business Services      SILICONDUST USA INC 92~ `     $   35~
-## 10 2017-10-31 Legal                  ASSURANT APPRAISALS LX~ `     $    6~
-## 11 2017-10-23 Legal                  RSTUDIO, INC. 84444812~ `     $    9~
-## 12 2017-10-17 Legal                  ASSURANT APPRAISALS LX~ `     $    6~
-## 13 2017-10-08 Electronics &amp; Software Dropbox*3GGYWNMMSGQ2 d~ `     $   99~
-## 14 2017-09-26 Legal                  ASSURANT APPRAISALS LX~ `     $    6~
-## 15 2017-09-19 Business Services      MetroList El Dorado Bi~ `     $  144~
-## 16 2017-09-12 Legal                  ASSURANT APPRAISALS LX~ `     $   12~
-## 17 2017-07-07 Business Services      THE BEAD SHOPPE ROSEVI~ `     $   23~
-## 18 2017-06-15 Business Services      MetroList El Dorado Bi~ `     $  144~
-## 19 2017-05-23 Printing               LEANPUB 6042650857 CA   `     $   30~
-## 20 2017-05-05 Legal                  COURSERA 650-265-7649 ~ `     $   49~
-## 21 2017-04-13 Legal                  INTUIT *TURBOTAX 800-4~ `     $   59~
-## 22 2017-04-13 Legal                  INTUIT *TURBOTAX 800-4~ `     $   24~
-## 23 2017-03-27 Printing               LEANPUB 6049168017 CA   `     $   15~
-## 24 2017-03-10 Business Services      MetroList El Dorado Bi~ `     $  144~
-## 25 2017-03-05 Printing               COURSERA 650-265-7649 ~ `     $   49~
-## 26 2017-02-24 Printing               UDEMY.COM UDEMY.COM CA  `     $   10~
-## 27 2017-02-07 Printing               LEANPUB 6042650857 CA   `     $   10~
-## 28 2017-02-04 Legal                  COURSERA 650-265-7649 ~ `     $   49~</code></pre>
+<pre><code>## # A tibble: 28 x 4
+##    Date       Category               Description            Amount   
+##    &lt;date&gt;     &lt;fctr&gt;                 &lt;fctr&gt;                 &lt;chr&gt;    
+##  1 2017-12-19 Legal                  Appraisal Scope Ok     $   21.00
+##  2 2017-12-17 Legal                  Coursera               $   49.00
+##  3 2017-12-14 Business Services      Metrolist              $  144.17
+##  4 2017-12-13 Legal                  Appraisal Scope Ok     $   21.00
+##  5 2017-11-22 Legal                  Appraisal Scope Ok     $   21.00
+##  6 2017-11-22 Legal                  Appraisal Scope Ok     $   21.00
+##  7 2017-11-21 Legal                  Assurant Appraisals Lx $    6.40
+##  8 2017-11-17 Legal                  Coursera               $   49.00
+##  9 2017-11-05 Business Services      Silicondust USA Inc    $   35.00
+## 10 2017-10-31 Legal                  Assurant Appraisals Lx $    6.40
+## 11 2017-10-23 Legal                  Rstudio Ma             $    9.00
+## 12 2017-10-17 Legal                  Assurant Appraisals Lx $    6.40
+## 13 2017-10-08 Electronics &amp; Software Dropbox                $   99.00
+## 14 2017-09-26 Legal                  Assurant Appraisals Lx $    6.40
+## 15 2017-09-19 Business Services      Metrolist              $  144.17
+## 16 2017-09-12 Legal                  Assurant Appraisals Lx $   12.80
+## 17 2017-07-07 Business Services      The Bead Shoppe        $   23.81
+## 18 2017-06-15 Business Services      Metrolist              $  144.17
+## 19 2017-05-23 Printing               Leanpub Ca             $   30.98
+## 20 2017-05-05 Legal                  Coursera               $   49.00
+## 21 2017-04-13 Legal                  Intuit TurboTax        $   59.99
+## 22 2017-04-13 Legal                  Intuit TurboTax        $   24.99
+## 23 2017-03-27 Printing               Leanpub Ca             $   15.00
+## 24 2017-03-10 Business Services      Metrolist              $  144.17
+## 25 2017-03-05 Printing               Coursera               $   49.00
+## 26 2017-02-24 Printing               Udemy                  $   10.00
+## 27 2017-02-07 Printing               Leanpub Ca             $   10.00
+## 28 2017-02-04 Legal                  Coursera               $   49.00</code></pre>
 <pre class="r"><code>print(paste(&quot;Total paid to Various Business expenses = $&quot;,sum(d7$Amount),sep = &quot;&quot;))</code></pre>
 <pre><code>## [1] &quot;Total paid to Various Business expenses = $1261.85&quot;</code></pre>
 </div>

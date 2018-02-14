@@ -2,7 +2,7 @@
 title: "Mint Data Processing"
 author: "GaryFH"
 date: "February 8, 2018"
-output: html_document
+output: md_document
 editor_options: 
   chunk_output_type: console
 ---
@@ -56,7 +56,7 @@ print(summarise(d11,sum(Amount)),n=nrow(d11))
 ```
 
 
-###Total Health Insurance
+###Total Health Insurance - subtracted $2,000 from below to adjust for non insurance expenses
 
 ```{r, message=FALSE,warning=FALSE}
 d4<-filter(d1,Category=="Health Insurance")
@@ -135,7 +135,7 @@ print(paste("Total paid to Business Travel = $",sum(dd6$Amount),sep = ""))
 ```
 
 
-###Office Supplies
+###Office Supplies - note that $1350 of the total below was for liability insurance.
 
 ```{r, message=FALSE,warning=FALSE}
 
@@ -243,10 +243,10 @@ print(paste("Total paid to property&other TAXES = $",sum(d8$Amount),sep = ""))
 ```{r, message=FALSE,warning=FALSE}
 
 d7<-filter(d1,Category=="Business Services" | Category=="Electronics & Software"| Category=="Legal"| Category=="Printing"| Category==" Tuition")
-d7<-select(d7,Date,Category,Original.Description,Amount)
+d7<-select(d7,Date,Category,Description,Amount)
 d77<-d7
 d77<-mutate(d77,z="`")
-d77<-select(d77,Date,Category,Original.Description,z,Amount)
+d77<-select(d77,Date,Category,Description,Amount)
 d77$Amount<- sprintf("$ %7.2f", d77$Amount)
 print(d77,n=nrow(d77))
 print(paste("Total paid to Various Business expenses = $",sum(d7$Amount),sep = ""))
