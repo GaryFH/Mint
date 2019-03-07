@@ -209,14 +209,7 @@
     dd45<-select(dd45,Date,Original.Description,z,Amount)
     dd45$Amount<- sprintf("$ %7.2f", dd45$Amount)
     print(dd45,n=nrow(dd45))
-
-    ## # A tibble: 0 x 4
-    ## # ... with 4 variables: Date <date>, Original.Description <fct>, z <chr>,
-    ## #   Amount <chr>
-
     print(paste("Total paid to Health Savings Account = $",sum(dd4$Amount),sep = ""))
-
-    ## [1] "Total paid to Health Savings Account = $0"
 
 ### Total Business Meals
 
@@ -518,9 +511,9 @@
 
     ## [1] "Total paid to Driver costs = $1000"
 
-### Estimated Federal & State tax payments
+### Estimated Federal tax payments
 
-    dd7<-filter(d1,Category=="Federal Tax" | Category=="State Tax")
+    dd7<-filter(d1,Category=="Federal Tax")
     dd7<-select(dd7,Date,Category,Original.Description,Amount,Notes)
     dd77<-dd7
     dd77<-mutate(dd77,z="`")
@@ -528,18 +521,32 @@
     dd77$Amount<- sprintf("$ %7.2f", dd77$Amount)
     print(dd77,n=nrow(dd77))
 
-    ## # A tibble: 5 x 6
+    ## # A tibble: 4 x 6
+    ##   Date       Category    Original.Description z     Amount    Notes
+    ##   <date>     <fct>       <fct>                <chr> <chr>     <fct>
+    ## 1 2018-09-18 Federal Tax Check 1603           `     $ 2500.00 ""   
+    ## 2 2018-06-20 Federal Tax Check 1598           `     $ 2500.00 ""   
+    ## 3 2018-04-17 Federal Tax Check 1594           `     $ 2825.00 ""   
+    ## 4 2018-04-17 Federal Tax Check 1595           `     $ 2000.00 ""
+
+### Estimated State tax payments
+
+    dd7b<-filter(d1, Category=="State Tax")
+    dd7b<-select(dd7b,Date,Category,Original.Description,Amount,Notes)
+    dd77b<-dd7b
+    dd77b<-mutate(dd77b,z="`")
+    dd77b<-select(dd77b,Date,Category,Original.Description,z,Amount,Notes)
+    dd77b$Amount<- sprintf("$ %7.2f", dd77b$Amount)
+    print(dd77b,n=nrow(dd77b))
+
+    ## # A tibble: 1 x 6
     ##   Date       Category  Original.Description              z     Amount Notes
     ##   <date>     <fct>     <fct>                             <chr> <chr>  <fct>
-    ## 1 2018-09-18 Federal ~ Check 1603                        `     $ 250~ ""   
-    ## 2 2018-06-20 Federal ~ Check 1598                        `     $ 250~ ""   
-    ## 3 2018-04-19 State Tax FRANCHISE TAX BD DES:CASTTAXRFD ~ `     $  66~ ""   
-    ## 4 2018-04-17 Federal ~ Check 1594                        `     $ 282~ ""   
-    ## 5 2018-04-17 Federal ~ Check 1595                        `     $ 200~ ""
+    ## 1 2018-04-19 State Tax FRANCHISE TAX BD DES:CASTTAXRFD ~ `     $  66~ ""
 
 ### Property and other taxes
 
-    d8<-filter(d1,Category=="Taxes")
+    d8<-filter(d1,Category=="Property Tax")
     d8<-select(d8,Date,Original.Description,Amount)
     d88<-d8
     d88<-mutate(d88,z="`")
@@ -547,13 +554,15 @@
     d88$Amount<- sprintf("$ %7.2f", d88$Amount)
     print(d88,n=nrow(d88))
 
-    ## # A tibble: 0 x 4
-    ## # ... with 4 variables: Date <date>, Original.Description <fct>, z <chr>,
-    ## #   Amount <chr>
+    ## # A tibble: 2 x 4
+    ##   Date       Original.Description z     Amount   
+    ##   <date>     <fct>                <chr> <chr>    
+    ## 1 2018-11-30 Check 1609           `     $ 2739.56
+    ## 2 2018-04-09 Check 1572           `     $ 2691.93
 
     print(paste("Total paid to property&other TAXES = $",sum(d8$Amount),sep = ""))
 
-    ## [1] "Total paid to property&other TAXES = $0"
+    ## [1] "Total paid to property&other TAXES = $5431.49"
 
 ### Business Services,Electronics & Software,Legal,Printing,Tuition
 
