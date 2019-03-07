@@ -4,76 +4,73 @@
 
 ### Look at income and try to reconcile - note that $5,000 of interest income was cashed and not part of Mint income.
 
-    d1<-tbl_df(read.csv("transactions02082018.csv"))
+    d1<-tbl_df(read.csv("transactions03062019.csv"))
     d1$Date<- as.Date(d1$Date,format="%m/%d/%Y")
-    d1<-filter(d1,Date>=as.Date("2017-01-01")&Date<=as.Date("2017-12-31"))
+    d1<-filter(d1,Date>=as.Date("2018-01-01")&Date<=as.Date("2018-12-31"))
 
     d2<-filter(d1,Transaction.Type=="credit")
 
     d222<-filter(d2,Category=="appraisal income")
     print(paste("Total Interest Income = ","$",sum(d222$Amount),sep=""))
 
-    ## [1] "Total Interest Income = $95787"
+    ## [1] "Total Interest Income = $59565"
 
     d223<-filter(d2,Category=="Interest Income")
     print(paste("Total Interest Income = ","$",(sum(d223$Amount)+5000),sep=""))
 
-    ## [1] "Total Interest Income = $13202.77"
+    ## [1] "Total Interest Income = $12403.09"
 
     d2b<-group_by(d2,Category)
     print(summarise(d2b,sum(Amount)),n=nrow(d2b))
 
     ## # A tibble: 13 x 2
     ##    Category            `sum(Amount)`
-    ##    <fctr>                      <dbl>
-    ##  1 appraisal income          95787  
-    ##  2 Auto Payment                 14.5
-    ##  3 Clothing                    199  
-    ##  4 Credit Card Payment       83924  
-    ##  5 Groceries                    51.5
-    ##  6 Home Improvement             19.3
-    ##  7 Income                      112  
-    ##  8 Interest Income            8203  
-    ##  9 Office Supplies             145  
-    ## 10 Reimbursement             10000  
-    ## 11 Service Fee                   0  
-    ## 12 Shopping                    984  
-    ## 13 Transfer-hm equity        80000
+    ##    <fct>                       <dbl>
+    ##  1 appraisal income          59565  
+    ##  2 Credit Card Payment       59651. 
+    ##  3 Groceries                    71.9
+    ##  4 Health Insurance              8  
+    ##  5 Income                       80.0
+    ##  6 Interest Income            7403. 
+    ##  7 Loan Repayment           327607. 
+    ##  8 Office Supplies             164. 
+    ##  9 Paycheck                   4390. 
+    ## 10 Reimbursement             45000  
+    ## 11 Shopping                    623. 
+    ## 12 State Tax                   669  
+    ## 13 Temp business loan        10000
 
     print(summarise(group_by(d2,Description),sum(Amount)),n=nrow(d2))
 
-    ## # A tibble: 29 x 2
+    ## # A tibble: 26 x 2
     ##    Description                            `sum(Amount)`
-    ##    <fctr>                                         <dbl>
-    ##  1 Amazon                                        177   
-    ##  2 Annual Membership Fee                           0   
-    ##  3 Bkofamerica ATM Deposit                     15450   
-    ##  4 Churchill Hardw Camerson                       12.9 
-    ##  5 Corelogic Des Lc                             2215   
-    ##  6 Costco                                         51.5 
-    ##  7 Costco Whse Folsom                            112   
-    ##  8 Counter                                     22104   
-    ##  9 Douglas Feed Ranch                             31.1 
-    ## 10 Dvs Proc Des                                 3305   
-    ## 11 Eddie Bauer                                    43.4 
-    ## 12 Hobby Lobby                                    13.9 
-    ## 13 Home Depot                                      6.48
-    ## 14 Home Goods                                    102   
-    ## 15 Interest Earned                                 2.77
-    ## 16 Land's End                                    543   
-    ## 17 Mercury                                        14.5 
-    ## 18 Michaels                                       61.8 
-    ## 19 Murcor Des Trade                            33483   
-    ## 20 Nordstrom                                     199   
-    ## 21 Nvs Pmd                                      1650   
-    ## 22 Nvs Pmd Des                                 35780   
-    ## 23 Online Banking Advance                      80000   
-    ## 24 Online Payment                              55390   
-    ## 25 Payment                                        18.0 
-    ## 26 Sam's Club                                    145   
-    ## 27 Thank You                                   19211   
-    ## 28 Transfer from Adv Tiered Interest Chkg       9273   
-    ## 29 Wal-Mart                                       42.8
+    ##    <fct>                                          <dbl>
+    ##  1 Amazon                                        157.  
+    ##  2 Bkofamerica ATM Deposit                     73123   
+    ##  3 CA State Tax                                  669   
+    ##  4 Capital One N                                5683.  
+    ##  5 Corelogic Des Lc                             1000   
+    ##  6 Costco                                         71.9 
+    ##  7 Counter                                    329107.  
+    ##  8 Deseret Book                                   31.9 
+    ##  9 Floor Decor Rocklin                            60.2 
+    ## 10 Gusto Des Ebv                                   0.01
+    ## 11 Gusto Des Pay                                4390.  
+    ## 12 Interest Earned                                 3.09
+    ## 13 J. Jill                                        22.5 
+    ## 14 Jo-Ann Stores                                  80.5 
+    ## 15 Kaiser Permanente                               8   
+    ## 16 Michaels                                       47.7 
+    ## 17 Murcor Des Trade                            17177   
+    ## 18 Murcor Trade Pay                              700   
+    ## 19 Nordstrom                                     283.  
+    ## 20 Nvs Pmd Des                                 18465   
+    ## 21 Online Banking Advance                      10000   
+    ## 22 Online Payment                              32781.  
+    ## 23 Online Thank You                             9816.  
+    ## 24 Returned Bill Viper                            80   
+    ## 25 Sam's Club                                    164.  
+    ## 26 Transfer from Adv Tiered Interest Chkg      11310.
 
     #View(filter(d2b,Category=="Interest Income"))
     #View(filter(d2b,Category=="appraisal income"))
@@ -85,68 +82,65 @@
     d11<-group_by(d1,Category)
     print(summarise(d11,sum(Amount)),n=nrow(d11))
 
-    ## # A tibble: 59 x 2
-    ##    Category               `sum(Amount)`
-    ##    <fctr>                         <dbl>
-    ##  1 Advertising                    59.0 
-    ##  2 Alcohol & Bars                  9.20
-    ##  3 appraisal income            95787   
-    ##  4 Auto Insurance               4391   
-    ##  5 Auto Payment                   58.0 
-    ##  6 bus phone/internet           3242   
-    ##  7 Business Meals               3424   
-    ##  8 Business Services             635   
-    ##  9 Business Travel              2082   
-    ## 10 Charity                     13000   
-    ## 11 Clothing                      746   
-    ## 12 Credit Card Payment         86777   
-    ## 13 Credit Card Payments        46774   
-    ## 14 Dentist                      1218   
-    ## 15 Doctor                       1465   
-    ## 16 Driver cost                  9158   
-    ## 17 Electric Bill                2272   
-    ## 18 Electronics & Software         99.0 
-    ## 19 Fast Food                      34.2 
-    ## 20 Federal Tax                 11378   
-    ## 21 Furnishings                   250   
-    ## 22 Gas & Fuel                   2839   
-    ## 23 Gift                          149   
-    ## 24 Gmail Bill                     15.3 
-    ## 25 Groceries                    7085   
-    ## 26 Gym                          1275   
-    ## 27 Health Insurance            10064   
-    ## 28 HealthSavingsAccount         7750   
-    ## 29 HOA Dues                      500   
-    ## 30 Hobbies                       105   
-    ## 31 Home Improvement            17679   
-    ## 32 Hotel                         102   
-    ## 33 Income                        112   
-    ## 34 Interest Income              8203   
-    ## 35 IRA                         13000   
-    ## 36 Legal                         412   
-    ## 37 Life Insurance               2652   
-    ## 38 Mortgage & Rent             12719   
-    ## 39 Movies & DVDs                 115   
-    ## 40 Music                         157   
-    ## 41 Office Supplies              6810   
-    ## 42 Parking                         5.00
-    ## 43 Pet Food & Supplies            79.8 
-    ## 44 Printing                      115   
-    ## 45 Propane Gas                  1349   
-    ## 46 Property Tax                 5740   
-    ## 47 Reimbursement               10000   
-    ## 48 Restaurants                   100   
-    ## 49 Service & Parts               964   
-    ## 50 Service Fee                     0   
-    ## 51 Shipping                       27.4 
-    ## 52 Shopping                     8848   
-    ## 53 State Tax                    2011   
-    ## 54 Taxes                        2754   
-    ## 55 Temp business loan          60000   
-    ## 56 Transfer-hm equity          80000   
-    ## 57 Trash Service                 357   
-    ## 58 Tuition                        59.0 
-    ## 59 Utilities                     150
+    ## # A tibble: 56 x 2
+    ##    Category             `sum(Amount)`
+    ##    <fct>                        <dbl>
+    ##  1 Advertising                   59  
+    ##  2 Air Travel                    25  
+    ##  3 appraisal income           59565  
+    ##  4 ATM Fee                       94.6
+    ##  5 Auto & Transport            1723. 
+    ##  6 Auto Insurance              5048. 
+    ##  7 bus phone/internet          3566. 
+    ##  8 Business Meals              2196. 
+    ##  9 Business Services           1559. 
+    ## 10 Business Travel             1385. 
+    ## 11 Charity                     8500  
+    ## 12 Clothing                      61.2
+    ## 13 Credit Card Payment        76355. 
+    ## 14 Credit Card Payments       27481. 
+    ## 15 Driver cost                 1000  
+    ## 16 Electric Bill               2313. 
+    ## 17 Entertainment                216  
+    ## 18 Fast Food                     75.0
+    ## 19 Federal Tax                 9825  
+    ## 20 Finance Charge               132. 
+    ## 21 Food & Dining                  9.5
+    ## 22 Gas & Fuel                  2689. 
+    ## 23 Gift                          35  
+    ## 24 Gmail Bill                   120  
+    ## 25 Groceries                   7025. 
+    ## 26 Hair                          22.4
+    ## 27 Health & Fitness              10  
+    ## 28 Health Insurance            7974. 
+    ## 29 HOA Dues                     500  
+    ## 30 Home Improvement            5959. 
+    ## 31 Hotel                         43.2
+    ## 32 Income                        80.0
+    ## 33 Interest Income             7403. 
+    ## 34 IRA Contribution           15000  
+    ## 35 Late Fee                      25  
+    ## 36 Legal                        825. 
+    ## 37 Life Insurance              2652  
+    ## 38 Loan Repayment            327607. 
+    ## 39 Mortgage & Rent            16155. 
+    ## 40 Movies & DVDs                 72.3
+    ## 41 Office Supplies             2970. 
+    ## 42 Paycheck                    4390. 
+    ## 43 Pet Food & Supplies           28.6
+    ## 44 Pharmacy                     613. 
+    ## 45 Propane Gas                  954. 
+    ## 46 Property Tax                5431. 
+    ## 47 Reimbursement              45000  
+    ## 48 Restaurants                  821. 
+    ## 49 Service & Parts               34.6
+    ## 50 Shipping                      17.2
+    ## 51 Shopping                    8701. 
+    ## 52 State Tax                    669  
+    ## 53 Temp business loan         30000  
+    ## 54 Transfer                  298064. 
+    ## 55 Trash Service                373. 
+    ## 56 Utilities                    135
 
 ### Total Health Insurance - subtracted $2,000 from below to adjust for non insurance expenses
 
@@ -158,54 +152,53 @@
     d45$Amount<- sprintf("$ %7.2f", d45$Amount)
     print(d45,n=nrow(d45))
 
-    ## # A tibble: 41 x 4
-    ##    Date       Description       z     Amount   
-    ##    <date>     <fctr>            <chr> <chr>    
-    ##  1 2017-12-21 Kaiser Permanente `     $  540.86
-    ##  2 2017-12-07 Kaiser Permanente `     $   13.40
-    ##  3 2017-12-07 Kaiser Permanente `     $    7.85
-    ##  4 2017-12-06 Kaiser Permanente `     $   15.00
-    ##  5 2017-12-04 Check 1580        `     $  281.88
-    ##  6 2017-12-04 Kaiser Permanente `     $   35.00
-    ##  7 2017-12-02 Kaiser Permanente `     $   71.67
-    ##  8 2017-11-08 Kaiser Permanente `     $  136.46
-    ##  9 2017-11-06 Check 1577        `     $  281.88
-    ## 10 2017-10-12 Kaiser Permanente `     $    9.10
-    ## 11 2017-10-10 Check 1575        `     $ 1127.52
-    ## 12 2017-10-01 Kaiser Permanente `     $   13.40
-    ## 13 2017-08-30 Kaiser Permanente `     $   79.52
-    ## 14 2017-08-30 Kaiser Permanente `     $   13.40
-    ## 15 2017-08-15 Rli Uw Serv       `     $  950.00
-    ## 16 2017-07-31 Kaiser Permanente `     $   13.40
-    ## 17 2017-07-26 Kaiser Permanente `     $  180.00
-    ## 18 2017-07-26 Kaiser Permanente `     $  300.00
-    ## 19 2017-07-17 Kaiser Permanente `     $  563.76
-    ## 20 2017-07-07 Kaiser Permanente `     $   13.40
-    ## 21 2017-06-27 Kaiser Permanente `     $  563.76
-    ## 22 2017-06-06 Kaiser Permanente `     $   13.40
-    ## 23 2017-06-06 Kaiser Permanente `     $   35.00
-    ## 24 2017-06-02 Kaiser Permanente `     $  281.88
-    ## 25 2017-05-29 Kaiser Permanente `     $   71.67
-    ## 26 2017-05-23 Kaiser Permanente `     $   35.00
-    ## 27 2017-05-22 Kaiser Permanente `     $   35.00
-    ## 28 2017-05-19 Kaiser Permanente `     $   35.00
-    ## 29 2017-05-16 Kaiser Permanente `     $   46.23
-    ## 30 2017-05-01 Check 1565        `     $  563.76
-    ## 31 2017-04-20 Kaiser Permanente `     $   13.40
-    ## 32 2017-03-29 Kaiser Permanente `     $  428.40
-    ## 33 2017-02-23 Check 1552        `     $  281.88
-    ## 34 2017-02-10 Kaiser Permanente `     $   13.40
-    ## 35 2017-02-10 Kaiser Permanente `     $  343.00
-    ## 36 2017-02-08 Kaiser Permanente `     $  678.28
-    ## 37 2017-02-08 Kaiser Permanente `     $  623.60
-    ## 38 2017-01-10 Kaiser Permanente `     $   37.80
-    ## 39 2017-01-06 Kaiser Permanente `     $   14.48
-    ## 40 2017-01-04 Kaiser Permanente `     $  623.60
-    ## 41 2017-01-04 Kaiser Permanente `     $  678.28
+    ## # A tibble: 40 x 4
+    ##    Date       Description            z     Amount   
+    ##    <date>     <fct>                  <chr> <chr>    
+    ##  1 2018-12-11 Aetna                  `     $   31.60
+    ##  2 2018-12-03 Health Net             `     $  236.00
+    ##  3 2018-11-27 Check 1606             `     $ 1002.58
+    ##  4 2018-11-20 Check 1607             `     $  118.00
+    ##  5 2018-11-14 Aetna                  `     $   31.60
+    ##  6 2018-11-13 Kaiser Permanente      `     $   55.00
+    ##  7 2018-10-11 Aetna                  `     $   31.60
+    ##  8 2018-10-02 Check 1586             `     $  540.86
+    ##  9 2018-09-28 Kaiser Permanente      `     $   11.67
+    ## 10 2018-09-26 Kaiser Permanente      `     $  275.14
+    ## 11 2018-09-21 Cms Medicare Insurance `     $  402.00
+    ## 12 2018-08-30 Check 1586             `     $  540.86
+    ## 13 2018-08-16 Kaiser Permanente      `     $   20.86
+    ## 14 2018-07-31 Kaiser Permanente      `     $ 1081.72
+    ## 15 2018-07-24 Dan Services           `     $   75.00
+    ## 16 2018-07-24 Dan Services           `     $   75.00
+    ## 17 2018-07-20 Kaiser Permanente      `     $   11.67
+    ## 18 2018-07-17 Kaiser Permanente      `     $   30.20
+    ## 19 2018-06-23 Kaiser Permanente      `     $   90.00
+    ## 20 2018-06-18 Kaiser Permanente      `     $    8.00
+    ## 21 2018-06-12 Kaiser Permanente      `     $   56.00
+    ## 22 2018-05-29 Check 1597             `     $ 1081.72
+    ## 23 2018-04-24 Kaiser Permanente      `     $   12.56
+    ## 24 2018-04-20 Kaiser Permanente      `     $   26.67
+    ## 25 2018-04-17 Kaiser Permanente      `     $   25.00
+    ## 26 2018-04-17 Kaiser Permanente      `     $  173.69
+    ## 27 2018-04-09 Check 1586             `     $  540.86
+    ## 28 2018-04-03 Kaiser Permanente      `     $   12.56
+    ## 29 2018-03-14 Kaiser Permanente      `     $   17.11
+    ## 30 2018-03-14 Kaiser Permanente      `     $   55.00
+    ## 31 2018-03-14 Kaiser Permanente      `     $   12.56
+    ## 32 2018-03-12 Kaiser Permanente      `     $   60.00
+    ## 33 2018-03-06 Kaiser Permanente      `     $   55.00
+    ## 34 2018-02-27 Kaiser Permanente      `     $   35.00
+    ## 35 2018-02-05 Kaiser Permanente      `     $   12.56
+    ## 36 2018-02-02 Kaiser Permanente      `     $    8.69
+    ## 37 2018-01-30 Check 1586             `     $  540.86
+    ## 38 2018-01-23 Kaiser Permanente      `     $    9.54
+    ## 39 2018-01-12 Kaiser Permanente      `     $   28.90
+    ## 40 2018-01-12 Check 1586             `     $  540.86
 
     print(paste("Total paid to Health Insurance = $",sum(d4$Amount),sep = ""))
 
-    ## [1] "Total paid to Health Insurance = $10064.32"
+    ## [1] "Total paid to Health Insurance = $7974.5"
 
 ### Health Savings Account
 
@@ -217,14 +210,13 @@
     dd45$Amount<- sprintf("$ %7.2f", dd45$Amount)
     print(dd45,n=nrow(dd45))
 
-    ## # A tibble: 1 x 4
-    ##   Date       Original.Description                            z     Amount 
-    ##   <date>     <fctr>                                          <chr> <chr>  
-    ## 1 2017-12-14 BANK OF AMERICA DES:PLAN CONTR ID:RTLBOA000118~ `     $ 7750~
+    ## # A tibble: 0 x 4
+    ## # ... with 4 variables: Date <date>, Original.Description <fct>, z <chr>,
+    ## #   Amount <chr>
 
     print(paste("Total paid to Health Savings Account = $",sum(dd4$Amount),sep = ""))
 
-    ## [1] "Total paid to Health Savings Account = $7750"
+    ## [1] "Total paid to Health Savings Account = $0"
 
 ### Total Business Meals
 
@@ -236,149 +228,115 @@
     d33$Amount<- sprintf("$ %7.2f", d33$Amount)
     print(d33,n=nrow(d33))
 
-    ## # A tibble: 136 x 4
+    ## # A tibble: 102 x 4
     ##     Date       Original.Description                     z     Amount   
-    ##     <date>     <fctr>                                   <chr> <chr>    
-    ##   1 2017-12-29 DENNY'S #7661 18007336 CAMERON PARK CA   `     $   19.45
-    ##   2 2017-12-26 LAZY DOG RESTAURANT 23 FOLSOM CA         `     $   45.57
-    ##   3 2017-12-20 ADALBERTO'S MEXICAN FOOD SACRAMENTO CA   `     $   12.29
-    ##   4 2017-12-19 SELLANDS EDH EL DORADO HILCA             `     $   39.50
-    ##   5 2017-12-18 PEDRICK PRODUCE DIXON CA                 `     $   56.14
-    ##   6 2017-12-15 VELVET GRILL & CREAMERY GALT CA          `     $   37.61
-    ##   7 2017-12-12 WALLYS PIZZA BAR CAMERON PARK CA         `     $   32.25
-    ##   8 2017-12-11 CARL'S JR 7058 CAMERON PARK CA           `     $   16.77
-    ##   9 2017-11-28 TORTILLA FLATS CANTINA PLACERVILLE CA    `     $  107.14
-    ##  10 2017-11-21 ADALBERTO'S MEXICAN FOOD SACRAMENTO CA   `     $   16.94
-    ##  11 2017-11-20 CARL'S JR 7058 CAMERON PARK CA           `     $   18.30
-    ##  12 2017-11-19 QUE VIVA CAMERON PARK CA                 `     $   33.36
-    ##  13 2017-11-15 SUBWAY 00034744 CAMERON PARK CA          `     $   16.81
-    ##  14 2017-11-14 CARL'S JR 7058 CAMERON PARK CA           `     $   18.01
-    ##  15 2017-11-13 CARL'S JR 7058 CAMERON PARK CA           `     $   15.98
-    ##  16 2017-11-10 APPLEBEES CAME18218255 CAMERON PARK CA   `     $   27.45
-    ##  17 2017-11-09 QUE VIVA CAMERON PARK CA                 `     $   24.76
-    ##  18 2017-11-06 SUBWAY 00034744 CAMERON PARK CA          `     $   15.86
-    ##  19 2017-11-02 CARL'S JR 7058 CAMERON PARK CA           `     $   15.98
-    ##  20 2017-10-31 JACK IN THE BOX 3439 EL DORADO HILCA     `     $   13.92
-    ##  21 2017-10-28 PEDRICK PRODUCE DIXON CA                 `     $   23.53
-    ##  22 2017-10-21 SUBWAY 00034744 CAMERON PARK CA          `     $   15.00
-    ##  23 2017-10-19 JACK IN THE BOX 3439 EL DORADO HILCA     `     $   11.78
-    ##  24 2017-10-17 ADALBERTO'S MEXICAN FOOD SACRAMENTO CA   `     $    8.34
-    ##  25 2017-10-17 QUE VIVA CAMERON PARK CA                 `     $   21.96
-    ##  26 2017-10-17 QUE VIVA CAMERON PARK CA                 `     $   26.96
-    ##  27 2017-10-14 CASCADA PLACERVILLE CA                   `     $   44.60
-    ##  28 2017-10-13 SUBWAY 00034744 CAMERON PARK CA          `     $   20.03
-    ##  29 2017-10-13 JACK'S URBAN EATS FOLSOM CA              `     $   41.59
-    ##  30 2017-10-04 SUBWAY 00034744 CAMERON PARK CA          `     $   17.88
-    ##  31 2017-10-04 QUE VIVA CAMERON PARK CA                 `     $   29.85
-    ##  32 2017-10-01 QUE VIVA CAMERON PARK CA                 `     $   37.24
-    ##  33 2017-09-30 FAT'S ASIA BISTRO FOLSOM CA              `     $   28.94
-    ##  34 2017-09-28 SUBWAY 00034744 CAMERON PARK CA          `     $   17.88
-    ##  35 2017-09-18 ADALBERTO'S MEXICAN FOOD SACRAMENTO CA   `     $    8.34
-    ##  36 2017-09-15 ADALBERTO'S MEXICAN FOOD SACRAMENTO CA   `     $   11.85
-    ##  37 2017-09-13 CASCADA PLACERVILLE CA                   `     $  113.55
-    ##  38 2017-09-11 CARL'S JR 7058 CAMERON PARK CA           `     $   18.20
-    ##  39 2017-09-08 QUE VIVA CAMERON PARK CA                 `     $   31.70
-    ##  40 2017-09-06 SUBWAY 00034744 CAMERON PARK CA          `     $   15.89
-    ##  41 2017-09-05 CALIFORNIA KITCHEN PLACERVILLE CA        `     $   33.00
-    ##  42 2017-08-28 WALLYS PIZZA BAR CAMERON PARK CA         `     $   32.87
-    ##  43 2017-08-22 CARL'S JR 7058 CAMERON PARK CA           `     $   15.40
-    ##  44 2017-08-19 CARL'S JR 7058 CAMERON PARK CA           `     $   10.96
-    ##  45 2017-08-17 JACK IN THE BOX 3439 EL DORADO HILCA     `     $   13.37
-    ##  46 2017-08-15 PEDRICK PRODUCE DIXON CA                 `     $   22.72
-    ##  47 2017-08-11 SUBWAY 00034744 CAMERON PARK CA          `     $   17.79
-    ##  48 2017-08-08 CARL'S JR 7058 CAMERON PARK CA           `     $   19.71
-    ##  49 2017-08-07 CARL'S JR 7058 CAMERON PARK CA           `     $   17.74
-    ##  50 2017-08-05 ADALBERTO'S MEXICAN FOOD SACRAMENTO CA   `     $    8.06
-    ##  51 2017-08-03 SUBWAY 00034744 CAMERON PARK CA          `     $   17.79
-    ##  52 2017-08-01 SOURDOUGH & CO EL DORADO HILCA           `     $   19.20
-    ##  53 2017-07-29 CARL'S JR 7058 CAMERON PARK CA           `     $   17.74
-    ##  54 2017-07-26 SOURDOUGH & CO EL DORADO HILCA           `     $   22.15
-    ##  55 2017-07-21 CARL'S JR 7058 CAMERON PARK CA           `     $   14.93
-    ##  56 2017-07-20 DENNY'S #7661 CAMERON PARK CA            `     $   26.19
-    ##  57 2017-07-18 QUE VIVA MEXICAN RESTAURACAMERON PARK CA `     $   35.72
-    ##  58 2017-07-17 CARL'S JR 7058 CAMERON PARK CA           `     $   17.55
-    ##  59 2017-07-15 CARL'S JR 7058 CAMERON PARK CA           `     $   16.57
-    ##  60 2017-07-14 CARL'S JR 7058 CAMERON PARK CA           `     $   16.86
-    ##  61 2017-07-13 VELVET GRILL & CREAMERY GALT CA          `     $   38.89
-    ##  62 2017-07-11 WALLYS PIZZA BAR CAMERON PARK CA         `     $   29.11
-    ##  63 2017-07-10 CARL'S JR 7058 CAMERON PARK CA           `     $   17.74
-    ##  64 2017-07-07 CARL'S JR 7058 CAMERON PARK CA           `     $   14.77
-    ##  65 2017-07-05 SUBWAY 00034744 CAMERON PARK CA          `     $   16.50
-    ##  66 2017-07-03 JACK IN THE BOX 4367 GALT CA             `     $   12.20
-    ##  67 2017-06-30 CASCADA PLACERVILLE CA                   `     $   37.65
-    ##  68 2017-06-29 CARL'S JR 7058 CAMERON PARK CA           `     $   15.98
-    ##  69 2017-06-27 CARL'S JR 7058 CAMERON PARK CA           `     $   15.98
-    ##  70 2017-06-26 CARL'S JR 7058 CAMERON PARK CA           `     $   15.98
-    ##  71 2017-06-24 DENNY'S #7661 CAMERON PARK CA            `     $   28.57
-    ##  72 2017-06-22 CARL'S JR 7058 CAMERON PARK CA           `     $   17.16
-    ##  73 2017-06-20 JACK IN THE BOX 3439 EL DORADO HILCA     `     $    8.88
-    ##  74 2017-06-19 JACK IN THE BOX #0541 PLACERVILLE CA     `     $   10.27
-    ##  75 2017-06-17 DENNY'S #7661 CAMERON PARK CA            `     $   26.36
-    ##  76 2017-06-16 JACK IN THE BOX 3439 EL DORADO HILCA     `     $    9.20
-    ##  77 2017-06-15 PEDRICK PRODUCE DIXON CA                 `     $   40.46
-    ##  78 2017-06-14 JACK IN THE BOX #3439 EL DORADO HILCA    `     $   10.27
-    ##  79 2017-06-14 CASCADA PLACERVILLE CA                   `     $  145.25
-    ##  80 2017-06-12 CARL'S JR 7058 CAMERON PARK CA           `     $   17.45
-    ##  81 2017-06-10 CARL'S JR 7058 CAMERON PARK CA           `     $   17.16
-    ##  82 2017-06-09 JACK IN THE BOX #3439 EL DORADO HILCA    `     $   10.81
-    ##  83 2017-06-08 ROUND TABLE PIZZA 6 CAMERON PARK CA      `     $   29.76
-    ##  84 2017-06-06 JACK IN THE BOX #3439 EL DORADO HILCA    `     $   10.27
-    ##  85 2017-05-25 JACK IN THE BOX #3439 EL DORADO HILCA    `     $   10.06
-    ##  86 2017-05-20 JACK IN THE BOX #3439 EL DORADO HILCA    `     $   10.06
-    ##  87 2017-05-18 BURGER KING #11982 ROSEVILLE CA          `     $    2.46
-    ##  88 2017-05-13 JACK IN THE BOX #3439 EL DORADO HILCA    `     $   11.13
-    ##  89 2017-05-11 JACK IN THE BOX #3439 EL DORADO HILCA    `     $   15.85
-    ##  90 2017-05-09 BURGER KING #11982 ROSEVILLE CA          `     $    2.46
-    ##  91 2017-05-08 QUE VIVA MEXICAN RESTAURACAMERON PARK CA `     $   25.86
-    ##  92 2017-05-06 JACK IN THE BOX #3439 EL DORADO HILCA    `     $   10.60
-    ##  93 2017-04-21 FOUR SISTERS CAFE ROSEVILLE CA           `     $   25.20
-    ##  94 2017-04-20 JAMIE'S BAR AND GRILL SACRAMENTO CA      `     $   83.00
-    ##  95 2017-04-13 QUE VIVA MEXICAN RESTAURACAMERON PARK CA `     $   32.55
-    ##  96 2017-04-10 DENNY'S #7661 CAMERON PARK CA            `     $   80.00
-    ##  97 2017-04-08 JACK IN THE BOX #3439 EL DORADO HILCA    `     $   14.02
-    ##  98 2017-04-06 QUE VIVA MEXICAN RESTAURACAMERON PARK CA `     $   24.17
-    ##  99 2017-04-05 JACK IN THE BOX #3442 FOLSOM CA          `     $    8.82
-    ## 100 2017-03-29 CASCADA PLACERVILLE CA                   `     $  119.10
-    ## 101 2017-03-28 JACK IN THE BOX #3439 EL DORADO HILCA    `     $   15.10
-    ## 102 2017-03-25 SUBWAY 00034744 CAMERON PARK CA          `     $   16.09
-    ## 103 2017-03-15 CARL'S JR 7058 CAMERON PARK CA           `     $    7.02
-    ## 104 2017-03-15 CARL'S JR 7058 CAMERON PARK CA           `     $   17.74
-    ## 105 2017-03-14 PEDRICK PRODUCE DIXON CA                 `     $   17.37
-    ## 106 2017-03-09 CARL'S JR 7058 CAMERON PARK CA           `     $   15.81
-    ## 107 2017-03-04 CARL'S JR 7058 CAMERON PARK CA           `     $   17.74
-    ## 108 2017-03-02 QUE VIVA MEXICAN RESTAURACAMERON PARK CA `     $   31.16
-    ## 109 2017-02-28 WALLYS PIZZA BAR CAMERON PARK CA         `     $   26.44
-    ## 110 2017-02-27 SUBWAY 00034744 CAMERON PARK CA          `     $   16.52
-    ## 111 2017-02-27 SUBWAY 00034744 CAMERON PARK CA          `     $    7.78
-    ## 112 2017-02-27 PEDRICK PRODUCE DIXON CA                 `     $   26.71
-    ## 113 2017-02-25 CARL'S JR 7058 CAMERON PARK CA           `     $   15.84
-    ## 114 2017-02-22 JACK IN THE BOX #3439 EL DORADO HILCA    `     $   17.44
-    ## 115 2017-02-18 CALIFORNIA KITCHEN PLACERVILLE CA        `     $   27.66
-    ## 116 2017-02-16 SUBWAY 00034744 CAMERON PARK CA          `     $   15.55
-    ## 117 2017-02-14 WALLYS PIZZA BAR CAMERON PARK CA         `     $   27.96
-    ## 118 2017-02-13 CARL'S JR 7058 CAMERON PARK CA           `     $   16.87
-    ## 119 2017-02-11 ADALBERTO'S MEXICAN FOOD SACRAMENTO CA   `     $   18.19
-    ## 120 2017-02-09 SUBWAY 00034744 CAMERON PARK CA          `     $   11.80
-    ## 121 2017-02-09 CARL'S JR 7058 CAMERON PARK CA           `     $    6.93
-    ## 122 2017-02-08 CARL'S JR 7058 CAMERON PARK CA           `     $   13.88
-    ## 123 2017-02-04 CARL'S JR 7058 CAMERON PARK CA           `     $   18.68
-    ## 124 2017-02-02 CARL'S JR 7058 CAMERON PARK CA           `     $   17.16
-    ## 125 2017-02-01 WALLYS PIZZA BAR CAMERON PARK CA         `     $   26.44
-    ## 126 2017-01-28 CARL'S JR 7058 CAMERON PARK CA           `     $   17.16
-    ## 127 2017-01-26 SMF SQUEEZE INN TERM A SACRAMENTO CA     `     $    9.49
-    ## 128 2017-01-21 IN-N-OUT BURGER #139 PLACERVILLE CA      `     $    4.96
-    ## 129 2017-01-20 PEDRICK PRODUCE DIXON CA                 `     $   57.59
-    ## 130 2017-01-20 SUBWAY 00034744 CAMERON PARK CA          `     $    7.78
-    ## 131 2017-01-18 JACK IN THE BOX #3439 EL DORADO HILCA    `     $   12.53
-    ## 132 2017-01-17 CASCADA PLACERVILLE CA                   `     $  132.85
-    ## 133 2017-01-16 SUBWAY 00034744 CAMERON PARK CA          `     $   20.75
-    ## 134 2017-01-12 QUE VIVA MEXICAN RESTAURACAMERON PARK CA `     $   39.14
-    ## 135 2017-01-06 WALLYS PIZZA BAR CAMERON PARK CA         `     $   26.49
-    ## 136 2017-01-05 CALIFORNIA KITCHEN PLACERVILLE CA        `     $   47.83
+    ##     <date>     <fct>                                    <chr> <chr>    
+    ##   1 2018-12-31 CARL'S JR 7058 CAMERON PARK CA           `     $    9.64
+    ##   2 2018-12-19 FAT'S ASIA BISTRO FOLSOM CA              `     $   28.94
+    ##   3 2018-12-17 ADALBERTO'S MEXICAN FOOD SACRAMENTO CA   `     $   10.28
+    ##   4 2018-12-11 CARL'S JR 7058 CAMERON PARK CA           `     $    6.44
+    ##   5 2018-12-10 WALLYS PIZZA BAR - CAMEROCAMERON PARK CA `     $   32.26
+    ##   6 2018-12-06 CARL'S JR 7058 CAMERON PARK CA           `     $    6.44
+    ##   7 2018-12-04 JACK IN THE BOX 0541 PLACERVILLE CA      `     $   12.84
+    ##   8 2018-12-03 CARL'S JR 7058 CAMERON PARK CA           `     $    6.44
+    ##   9 2018-11-30 CARL'S JR 7058 CAMERON PARK CA           `     $    6.44
+    ##  10 2018-11-23 CARL'S JR 7058 CAMERON PARK CA           `     $    9.64
+    ##  11 2018-11-14 CARL'S JR 7058 CAMERON PARK CA           `     $    6.44
+    ##  12 2018-11-13 CARL'S JR 7058 CAMERON PARK CA           `     $    6.51
+    ##  13 2018-11-11 BRAMBLE BERRY 360-734-8278 WA            `     $   28.60
+    ##  14 2018-11-07 CARL'S JR 7058 CAMERON PARK CA           `     $    6.44
+    ##  15 2018-11-06 CARL'S JR 7058 CAMERON PARK CA           `     $    6.95
+    ##  16 2018-11-05 CARL'S JR 7058 CAMERON PARK CA           `     $    9.64
+    ##  17 2018-11-02 IN N OUT BURGER 139 PLACERVILLE CA       `     $   22.07
+    ##  18 2018-10-29 CARL'S JR 7058 CAMERON PARK CA           `     $    6.44
+    ##  19 2018-10-22 PANERA BREAD #202210 FOLSOM CA           `     $   24.12
+    ##  20 2018-10-19 JACK'S URBAN EATS FOLSOM CA              `     $   26.34
+    ##  21 2018-10-17 CARL'S JR 7058 CAMERON PARK CA           `     $    9.64
+    ##  22 2018-10-13 CARL'S JR 7054 PLACERVILLE CA            `     $    6.50
+    ##  23 2018-10-12 CARL'S JR 7058 CAMERON PARK CA           `     $    6.44
+    ##  24 2018-10-06 SUBWAY 00322750 ELK GROVE CA             `     $   19.59
+    ##  25 2018-10-05 SQ *PERRONS Q PLACERVILLE CA             `     $   35.50
+    ##  26 2018-10-02 THE INDEPENDENT RESTAU PLACERVILLE CA    `     $  223.54
+    ##  27 2018-10-02 JACK IN THE BOX 3439 EL DORADO HILCA     `     $    9.31
+    ##  28 2018-10-01 SUBWAY 00034744 CAMERON PARK CA          `     $   18.10
+    ##  29 2018-09-28 CARL'S JR 7058 CAMERON PARK CA           `     $    9.64
+    ##  30 2018-09-26 CARL'S JR 7058 CAMERON PARK CA           `     $    9.32
+    ##  31 2018-09-25 BRAMBLE BERRY 360-734-8278 WA            `     $   38.65
+    ##  32 2018-09-25 MONTEREY BAY SPICE COMPA 831-426-2808 CA `     $   26.05
+    ##  33 2018-09-25 APPLEBEES CAME18218255 CAMERON PARK CA   `     $   55.91
+    ##  34 2018-09-24 CARL'S JR 7058 CAMERON PARK CA           `     $    9.32
+    ##  35 2018-09-22 CARL'S JR 7058 CAMERON PARK CA           `     $    5.57
+    ##  36 2018-09-20 CARL'S JR 7058 CAMERON PARK CA           `     $   20.88
+    ##  37 2018-09-19 CARL'S JR 7058 CAMERON PARK CA           `     $    6.44
+    ##  38 2018-09-11 QUE VIVA MEXICAN RESTAURACAMERON PARK CA `     $   28.08
+    ##  39 2018-08-27 CARL'S JR 7058 CAMERON PARK CA           `     $    6.44
+    ##  40 2018-08-24 CARL'S JR 7058 CAMERON PARK CA           `     $    9.20
+    ##  41 2018-08-20 CARL'S JR 7058 CAMERON PARK CA           `     $    8.52
+    ##  42 2018-08-20 LAZY DOG RESTAURANT 23 FOLSOM CA         `     $  146.72
+    ##  43 2018-08-14 JACK IN THE BOX 0541 PLACERVILLE CA      `     $    7.27
+    ##  44 2018-08-13 CARL'S JR 7058 CAMERON PARK CA           `     $   10.90
+    ##  45 2018-08-06 CARL'S JR 7058 CAMERON PARK CA           `     $    6.44
+    ##  46 2018-07-30 WALLYS PIZZA BAR CAMERON PARK CA         `     $   26.96
+    ##  47 2018-07-28 JACK IN THE BOX 3439 EL DORADO HILCA     `     $   14.12
+    ##  48 2018-07-24 CARL'S JR 7058 CAMERON PARK CA           `     $    9.64
+    ##  49 2018-07-24 QUE VIVA MEXICAN RESTAURACAMERON PARK CA `     $   28.02
+    ##  50 2018-07-19 CARL'S JR 7058 CAMERON PARK CA           `     $   12.42
+    ##  51 2018-07-14 CARL'S JR 7058 CAMERON PARK CA           `     $    6.44
+    ##  52 2018-07-11 CARL'S JR 7058 CAMERON PARK CA           `     $    6.44
+    ##  53 2018-07-10 QUE VIVA MEXICAN RESTAURACAMERON PARK CA `     $   31.76
+    ##  54 2018-07-10 CARL'S JR 7058 CAMERON PARK CA           `     $    6.44
+    ##  55 2018-07-06 SUBWAY 00468983 LOST HILLS CA            `     $   12.96
+    ##  56 2018-07-05 CARL'S JR 7058 CAMERON PARK CA           `     $    6.44
+    ##  57 2018-06-29 ADALBERTO'S MEXICAN FOOD SACRAMENTO CA   `     $   13.10
+    ##  58 2018-06-25 BURGER KING #18516 WINTERS CA            `     $    7.81
+    ##  59 2018-06-21 CARL'S JR 7058 CAMERON PARK CA           `     $    6.44
+    ##  60 2018-06-20 CARL'S JR 7058 CAMERON PARK CA           `     $    6.44
+    ##  61 2018-06-13 APPLEBEES CAME18218255 CAMERON PARK CA   `     $   31.65
+    ##  62 2018-06-08 JACK IN THE BOX 3435 ROCKLIN CA          `     $   10.06
+    ##  63 2018-06-08 THE INDEPENDENT RESTAU PLACERVILLE CA    `     $  207.12
+    ##  64 2018-05-25 WALLYS PIZZA BAR CAMERON PARK CA         `     $   48.20
+    ##  65 2018-05-22 CARL'S JR 7058 CAMERON PARK CA           `     $    6.44
+    ##  66 2018-05-03 CARL'S JR 7058 CAMERON PARK CA           `     $    6.44
+    ##  67 2018-04-27 DENNY'S #7661 18007336 CAMERON PARK CA   `     $   22.05
+    ##  68 2018-04-24 CARL'S JR 7058 CAMERON PARK CA           `     $    6.44
+    ##  69 2018-04-23 CARL'S JR 7058 CAMERON PARK CA           `     $    6.44
+    ##  70 2018-04-14 CARL'S JR 7058 CAMERON PARK CA           `     $    8.76
+    ##  71 2018-04-13 CARL'S JR 7058 CAMERON PARK CA           `     $    7.51
+    ##  72 2018-04-12 CARL'S JR 7058 CAMERON PARK CA           `     $   18.13
+    ##  73 2018-04-11 SUBWAY 00034744 CAMERON PARK CA          `     $   15.99
+    ##  74 2018-04-04 CARL'S JR 7058 CAMERON PARK CA           `     $    4.49
+    ##  75 2018-03-31 CARL'S JR 7058 CAMERON PARK CA           `     $    6.44
+    ##  76 2018-03-29 CARL'S JR 7058 CAMERON PARK CA           `     $    6.44
+    ##  77 2018-03-24 CARL'S JR 7058 CAMERON PARK CA           `     $    6.44
+    ##  78 2018-03-21 SUBWAY 00034744 CAMERON PARK CA          `     $   15.00
+    ##  79 2018-03-06 SUBWAY 00034744 CAMERON PARK CA          `     $   15.43
+    ##  80 2018-03-02 CARL'S JR 7058 CAMERON PARK CA           `     $   15.23
+    ##  81 2018-02-27 PANERA BREAD #202210 FOLSOM CA           `     $   16.90
+    ##  82 2018-02-27 SUBWAY 00034744 CAMERON PARK CA          `     $   15.43
+    ##  83 2018-02-24 CARL'S JR 7058 CAMERON PARK CA           `     $   22.49
+    ##  84 2018-02-22 CARL'S JR 7058 CAMERON PARK CA           `     $    6.95
+    ##  85 2018-02-19 CARL'S JR 7058 CAMERON PARK CA           `     $    5.78
+    ##  86 2018-02-07 CARL'S JR 7058 CAMERON PARK CA           `     $   12.52
+    ##  87 2018-02-05 CARL'S JR 7058 CAMERON PARK CA           `     $   11.75
+    ##  88 2018-02-02 SUBWAY 00034744 CAMERON PARK CA          `     $   17.99
+    ##  89 2018-01-30 JACK IN THE BOX 3442 FOLSOM CA           `     $   13.66
+    ##  90 2018-01-29 CARL'S JR 7058 CAMERON PARK CA           `     $    7.27
+    ##  91 2018-01-27 SUBWAY 00034744 CAMERON PARK CA          `     $   15.49
+    ##  92 2018-01-25 CARL'S JR 7058 CAMERON PARK CA           `     $   16.29
+    ##  93 2018-01-24 PANERA BREAD #202217 RANCHO CORDOVCA     `     $   28.86
+    ##  94 2018-01-24 QUE VIVA MEXICAN RESTAURACAMERON PARK CA `     $   40.06
+    ##  95 2018-01-23 PIZZA BENE PLACERVILLE CA                `     $  169.10
+    ##  96 2018-01-20 VELVET GRILL & CREAMERY GALT CA          `     $   40.52
+    ##  97 2018-01-19 CARL'S JR 7058 CAMERON PARK CA           `     $    7.30
+    ##  98 2018-01-17 SUBWAY 00034744 CAMERON PARK CA          `     $   16.50
+    ##  99 2018-01-09 CARL'S JR 7058 CAMERON PARK CA           `     $   14.36
+    ## 100 2018-01-08 CARL'S JR 7058 CAMERON PARK CA           `     $   18.13
+    ## 101 2018-01-05 SUBWAY 00034744 CAMERON PARK CA          `     $   15.49
+    ## 102 2018-01-04 CARL'S JR 7058 CAMERON PARK CA           `     $   16.29
 
     print(paste("Total Business Meals = $",sum(d3$Amount),sep = ""))
 
-    ## [1] "Total Business Meals = $3423.98"
+    ## [1] "Total Business Meals = $2196.14"
 
 ### Business phone/internet
 
@@ -390,35 +348,39 @@
     dd55$Amount<- sprintf("$ %7.2f", dd55$Amount)
     print(dd55,n=nrow(dd55))
 
-    ## # A tibble: 22 x 4
-    ##    Date       Original.Description                           z     Amount 
-    ##    <date>     <fctr>                                         <chr> <chr>  
-    ##  1 2017-11-28 AT&T MOBILITY Bill Payment                     `     $  194~
-    ##  2 2017-11-08 ATT DES:Payment ID:XXXXX7011EPAYK INDN:sherry~ `     $   86~
-    ##  3 2017-10-30 AT&T Mobility Bill Payment                     `     $  189~
-    ##  4 2017-10-10 ATT DES:Payment ID:XXXXX9011EPAYG INDN:sherry~ `     $   86~
-    ##  5 2017-09-15 AT&T Mobility Bill Payment                     `     $  201~
-    ##  6 2017-09-11 ATT DES:Payment ID:XXXXX2011EPAYC INDN:sherry~ `     $   83~
-    ##  7 2017-08-29 AT&T MOBILITY Bill Payment                     `     $  183~
-    ##  8 2017-08-08 ATT DES:Payment ID:XXXXX7011EPAYW INDN:sherry~ `     $   91~
-    ##  9 2017-07-13 AT&T Mobility Bill Payment                     `     $  183~
-    ## 10 2017-07-10 ATT DES:Payment ID:XXXXX0011EPAYS INDN:sherry~ `     $   91~
-    ## 11 2017-06-26 AT&T MOBILITY Bill Payment                     `     $  188~
-    ## 12 2017-06-08 ATT DES:Payment ID:XXXXX6011EPAYN INDN:sherry~ `     $   91~
-    ## 13 2017-06-02 AT&T Mobility Bill Payment                     `     $  183~
-    ## 14 2017-05-09 ATT DES:Payment ID:XXXXX4011EPAYI INDN:sherry~ `     $   91~
-    ## 15 2017-04-20 AT&T Mobility Bill Payment                     `     $  188~
-    ## 16 2017-04-10 ATT DES:Payment ID:XXXXX4011EPAYE INDN:sherry~ `     $   91~
-    ## 17 2017-03-28 AT&T MOBILITY Bill Payment                     `     $  183~
-    ## 18 2017-03-13 ATT DES:Payment ID:XXXXX1012EPAYD INDN:sherry~ `     $   91~
-    ## 19 2017-02-24 AT&T MOBILITY Bill Payment                     `     $  183~
-    ## 20 2017-02-08 ATT DES:Payment ID:XXXXX8002EPAYS INDN:sherry~ `     $   90~
-    ## 21 2017-01-09 ATT DES:Payment ID:XXXXX5012EPAYS INDN:sherry~ `     $   90~
-    ## 22 2017-01-06 AT&T*BILL PAYMENT WWW.ATT.COM TX               `     $  376~
+    ## # A tibble: 26 x 4
+    ##    Date       Original.Description                            z     Amount 
+    ##    <date>     <fct>                                           <chr> <chr>  
+    ##  1 2018-12-21 AT&T Mobility Bill Payment                      `     $  197~
+    ##  2 2018-12-19 T-MOBILE STORE # 933C FOLSOM CA                 `     $   80~
+    ##  3 2018-12-19 T-MOBILE STORE # 933C FOLSOM CA                 `     $   20~
+    ##  4 2018-12-19 T-MOBILE STORE # 933C FOLSOM CA                 `     $  144~
+    ##  5 2018-12-10 ATT DES:Payment ID:XXXXX6011EPAYP INDN:sherry ~ `     $   92~
+    ##  6 2018-11-30 AT&T Mobility Bill Payment                      `     $  197~
+    ##  7 2018-11-09 ATT DES:Payment ID:XXXXX7011EPAYL INDN:sherry ~ `     $   92~
+    ##  8 2018-10-30 AT&T MOBILITY Bill Payment                      `     $  192~
+    ##  9 2018-10-10 ATT DES:Payment ID:XXXXX9012EPAYH INDN:sherry ~ `     $   91~
+    ## 10 2018-09-21 AT&T Mobility Bill Payment                      `     $  191~
+    ## 11 2018-09-10 ATT DES:Payment ID:XXXXX7011EPAYC INDN:sherry ~ `     $   91~
+    ## 12 2018-08-20 AT&T MOBILITY Bill Payment                      `     $  197~
+    ## 13 2018-08-08 ATT DES:Payment ID:XXXXX8011EPAYW INDN:sherry ~ `     $   91~
+    ## 14 2018-07-31 AT&T MOBILITY Bill Payment                      `     $  191~
+    ## 15 2018-07-10 ATT DES:Payment ID:XXXXX6011EPAYS INDN:sherry ~ `     $   88~
+    ## 16 2018-06-19 AT&T MOBILITY Bill Payment                      `     $  190~
+    ## 17 2018-06-07 ATT DES:Payment ID:XXXXX2001EPAYG INDN:sherry ~ `     $   88~
+    ## 18 2018-04-26 AT&T MOBILITY Bill Payment                      `     $  195~
+    ## 19 2018-04-09 ATT DES:Payment ID:XXXXX4011EPAYE INDN:sherry ~ `     $   89~
+    ## 20 2018-03-27 AT&T MOBILITY Bill Payment                      `     $  194~
+    ## 21 2018-03-13 AT&T MOBILITY Bill Payment                      `     $  194~
+    ## 22 2018-03-12 ATT DES:Payment ID:XXXXX3011EPAYB INDN:sherry ~ `     $   88~
+    ## 23 2018-02-07 ATT DES:Payment ID:XXXXX8011EPAYW INDN:sherry ~ `     $   86~
+    ## 24 2018-01-30 AT&T MOBILITY Bill Payment                      `     $  194~
+    ## 25 2018-01-08 ATT DES:Payment ID:XXXXX3011EPAYR INDN:sherry ~ `     $   86~
+    ## 26 2018-01-03 AT&T Mobility Bill Payment                      `     $  194~
 
     print(paste("Total paid to Business Phone/Internet = $",sum(dd5$Amount),sep = ""))
 
-    ## [1] "Total paid to Business Phone/Internet = $3241.91"
+    ## [1] "Total paid to Business Phone/Internet = $3565.52"
 
 ### Business Travel
 
@@ -430,29 +392,20 @@
     dd66$Amount<- sprintf("$ %7.2f", dd66$Amount)
     print(dd66,n=nrow(dd66))
 
-    ## # A tibble: 16 x 4
-    ##    Date       Original.Description                           z     Amount 
-    ##    <date>     <fctr>                                         <chr> <chr>  
-    ##  1 2017-10-13 CHECKCARD 1012 AA INFLIGHT VISA FACET PHOENIX~ `     $    1~
-    ##  2 2017-10-12 AMERICAN AIR0010265351813FORT WORTH TX         `     $   25~
-    ##  3 2017-10-05 AMERICAN AIR0010264751280FORT WORTH TX         `     $   25~
-    ##  4 2017-10-04 AMERICAN AIR0010659284841FORT WORTH TX         `     $   13~
-    ##  5 2017-09-14 AMERICAN AIR0018654873036FORT WORTH TX         `     $  351~
-    ##  6 2017-09-04 DELTA AIR Baggage Fee SALT LAKE CTYUT          `     $   25~
-    ##  7 2017-08-31 DELTA AIR Baggage Fee SACRAMENTO CA            `     $   25~
-    ##  8 2017-07-17 JETAIR SHINGLE SPRINCA                         `     $  357~
-    ##  9 2017-07-10 DELTA AIR 0068636969895BELLEVUE WA             `     $  176~
-    ## 10 2017-05-02 DELTA AIR 0068618080762BELLEVUE WA             `     $  576~
-    ## 11 2017-03-13 DELTA AIR Baggage Fee SALT LAKE CTYUT          `     $   25~
-    ## 12 2017-03-08 DELTA AIR Baggage Fee SACRAMENTO CA            `     $   25~
-    ## 13 2017-02-15 DELTA AIR 0067947592249BELLEVUE WA             `     $  156~
-    ## 14 2017-01-28 THRIFTY CAR RENTAL SALT LAKE CTYUT             `     $   77~
-    ## 15 2017-01-28 SMF PARKING SACRAMENTO CA                      `     $   24~
-    ## 16 2017-01-28 HOLIDAY INN EXPRESS & SU AMERICAN FORKUT       `     $  197~
+    ## # A tibble: 7 x 4
+    ##   Date       Original.Description                   z     Amount   
+    ##   <date>     <fct>                                  <chr> <chr>    
+    ## 1 2018-11-03 HYATT REGENCY SAN FRAN A BURLINGAME CA `     $  721.39
+    ## 2 2018-11-02 HYATT REGENCY SF ARP F&B BURLINGAME CA `     $   81.68
+    ## 3 2018-09-05 PMT*SAC CO AIRPORT PARKNGSACRAMENTO CA `     $   60.00
+    ## 4 2018-09-04 DELTA AIR 0062160434458DALLAS TX       `     $  202.00
+    ## 5 2018-07-27 DELTA AIR 0067167625947BELLEVUE WA     `     $  240.40
+    ## 6 2018-04-07 PMT*SAC CO AIRPORT PARKNGSACRAMENTO CA `     $   30.00
+    ## 7 2018-03-14 PMT*SAC CO AIRPORT PARKNGSACRAMENTO CA `     $   50.00
 
     print(paste("Total paid to Business Travel = $",sum(dd6$Amount),sep = ""))
 
-    ## [1] "Total paid to Business Travel = $2081.92"
+    ## [1] "Total paid to Business Travel = $1385.47"
 
 ### Office Supplies - note that $1350 of the total below was for liability insurance.
 
@@ -464,103 +417,50 @@
     d88$Amount<- sprintf("$ %7.2f", d88$Amount)
     print(d88,n=nrow(d88))
 
-    ## # A tibble: 90 x 4
-    ##    Date       Original.Description                    z     Amount   
-    ##    <date>     <fctr>                                  <chr> <chr>    
-    ##  1 2017-12-29 BEST BUY 00008458 FOLSOM CA             `     $   59.25
-    ##  2 2017-12-23 RSTUDIO, INC. RSTUDIO.COM MA            `     $    9.00
-    ##  3 2017-12-22 SAMSCLUB #6620 FOLSOM CA                `     $   68.64
-    ##  4 2017-12-22 A LA MODE, INC 800-252-6633 FL          `     $ 1499.00
-    ##  5 2017-12-21 AMAZON MKTPLACE PMTS AMZN.COM/BILLWA    `     $   27.86
-    ##  6 2017-12-20 AMAZON MKTPLACE PMTS AMZN.COM/BILLWA    `     $   43.98
-    ##  7 2017-12-20 AMAZON MKTPLACE PMTS AMZN.COM/BILLWA    `     $   19.07
-    ##  8 2017-12-18 SAMSCLUB.COM 8887467726 AR              `     $  160.85
-    ##  9 2017-12-18 AMAZON MKTPLACE PMTS AMZN.COM/BILLWA    `     $   18.00
-    ## 10 2017-12-16 AMAZON MKTPLACE PMTS AMZN.COM/BILLWA    `     $   32.12
-    ## 11 2017-12-15 AMAZON MKTPLACE PMTS AMZN.COM/BILLWA    `     $   49.37
-    ## 12 2017-12-11 SAMSCLUB #6620 FOLSOM CA                `     $  137.71
-    ## 13 2017-11-30 SAMSCLUB #6620 FOLSOM CA                `     $   52.40
-    ## 14 2017-11-30 APPRAISAL SCOPE INC 800-4347260 OK      `     $   21.00
-    ## 15 2017-11-24 AMAZON MKTPLACE PMTS AMZN.COM/BILLWA    `     $   21.99
-    ## 16 2017-11-23 RSTUDIO, INC. RSTUDIO.COM MA            `     $    9.00
-    ## 17 2017-11-18 AMAZON MKTPLACE PMTS AMZN.COM/BILLWA    `     $   81.05
-    ## 18 2017-11-18 AMAZON MKTPLACE PMTS AMZN.COM/BILLWA    `     $    8.13
-    ## 19 2017-11-15 AMAZON MKTPLACE PMTS AMZN.COM/BILLWA    `     $   10.49
-    ## 20 2017-11-14 AMAZON MKTPLACE PMTS AMZN.COM/BILLWA    `     $   55.81
-    ## 21 2017-11-13 AMAZON MKTPLACE PMTS AMZN.COM/BILLWA    `     $   23.98
-    ## 22 2017-11-12 AMAZON MKTPLACE PMTS AMZN.COM/BILLWA    `     $   43.98
-    ## 23 2017-11-08 AMAZON MKTPLACE PMTS AMZN.COM/BILLWA    `     $   55.99
-    ## 24 2017-11-02 AMAZON MKTPLACE PMTS AMZN.COM/BILLWA    `     $  109.97
-    ## 25 2017-10-09 AMAZON MKTPLACE PMTS AMZN.COM/BILLWA    `     $   54.57
-    ## 26 2017-10-07 AMAZON MKTPLACE PMTS AMZN.COM/BILLWA    `     $   16.99
-    ## 27 2017-09-16 AMAZON MKTPLACE PMTS AMZN.COM/BILLWA    `     $   13.95
-    ## 28 2017-09-15 SAMSCLUB #6620 FOLSOM CA                `     $  101.20
-    ## 29 2017-09-15 AMAZON MKTPLACE PMTS AMZN.COM/BILLWA    `     $   15.05
-    ## 30 2017-09-15 AMAZON MKTPLACE PMTS AMZN.COM/BILLWA    `     $   31.21
-    ## 31 2017-09-15 AMAZON MKTPLACE PMTS AMZN.COM/BILLWA    `     $    7.99
-    ## 32 2017-08-30 AMAZON MKTPLACE PMTS AMZN.COM/BILLWA    `     $  148.99
-    ## 33 2017-08-25 AMAZON MKTPLACE PMTS AMZN.COM/BILLWA    `     $   38.56
-    ## 34 2017-08-25 AMAZON MKTPLACE PMTS AMZN.COM/BILLWA    `     $   15.90
-    ## 35 2017-08-25 AMAZON MKTPLACE PMTS AMZN.COM/BILLWA    `     $   21.00
-    ## 36 2017-08-24 AMAZON MKTPLACE PMTS AMZN.COM/BILLWA    `     $    9.96
-    ## 37 2017-08-20 AMAZON MKTPLACE PMTS AMZN.COM/BILLWA    `     $   29.99
-    ## 38 2017-08-18 AMAZON MKTPLACE PMTS AMZN.COM/BILLWA    `     $   28.99
-    ## 39 2017-08-18 AMAZON MKTPLACE PMTS AMZN.COM/BILLWA    `     $    8.99
-    ## 40 2017-07-20 SAMS CLUB #6620 FOLSOM CA               `     $   83.71
-    ## 41 2017-07-14 SAMS CLUB - #6620 FOLSOM CA             `     $  189.98
-    ## 42 2017-07-14 SAMS CLUB - #6620 FOLSOM CA             `     $   56.98
-    ## 43 2017-07-12 AMAZON MKTPLACE PMTS AMZN.COM/BILLWA    `     $  197.61
-    ## 44 2017-07-05 AMAZON MKTPLACE PMTS AMZN.COM/BILLWA    `     $   69.43
-    ## 45 2017-07-03 SAMSCLUB #6620 FOLSOM CA                `     $  148.54
-    ## 46 2017-07-01 AMAZON MKTPLACE PMTS AMZN.COM/BILLWA    `     $   12.75
-    ## 47 2017-06-25 AMAZON MKTPLACE PMTS AMZN.COM/BILLWA    `     $   63.92
-    ## 48 2017-06-17 SAMS CLUB #6620 FOLSOM CA               `     $   46.79
-    ## 49 2017-06-17 SAMSCLUB #6620 FOLSOM CA                `     $   26.88
-    ## 50 2017-06-13 SAMSCLUB #6620 FOLSOM CA                `     $   15.96
-    ## 51 2017-06-13 SAMS CLUB #6620 FOLSOM CA               `     $   81.92
-    ## 52 2017-06-09 SAMS CLUB #6620 FOLSOM CA               `     $   61.91
-    ## 53 2017-06-09 AMAZON MKTPLACE PMTS AMZN.COM/BILLWA    `     $   64.70
-    ## 54 2017-06-07 SAMSCLUB #6620 FOLSOM CA                `     $   27.91
-    ## 55 2017-06-07 SAMS CLUB #6620 FOLSOM CA               `     $   45.00
-    ## 56 2017-06-06 AMAZON MKTPLACE PMTS AMZN.COM/BILLWA    `     $   29.80
-    ## 57 2017-06-06 AMAZON MKTPLACE PMTS AMZN.COM/BILLWA    `     $   41.99
-    ## 58 2017-06-05 AMAZON MKTPLACE PMTS AMZN.COM/BILLWA    `     $   45.06
-    ## 59 2017-06-04 AMAZON MKTPLACE PMTS AMZN.COM/BILLWA    `     $   52.95
-    ## 60 2017-06-03 AMAZON MKTPLACE PMTS AMZN.COM/BILLWA    `     $   39.99
-    ## 61 2017-06-02 AMAZON MKTPLACE PMTS AMZN.COM/BILLWA    `     $   28.69
-    ## 62 2017-05-31 AMAZON MKTPLACE PMTS AMZN.COM/BILLWA    `     $  359.96
-    ## 63 2017-05-30 SAMS CLUB - #6620 FOLSOM CA             `     $   16.08
-    ## 64 2017-05-23 SAMS CLUB - #6620 FOLSOM CA             `     $   50.26
-    ## 65 2017-05-19 SAMS CLUB - #6620 FOLSOM CA             `     $   45.73
-    ## 66 2017-05-19 AMAZON MKTPLACE PMTS AMZN.COM/BILLWA    `     $   45.59
-    ## 67 2017-05-17 SAMS CLUB - #6620 FOLSOM CA             `     $    9.96
-    ## 68 2017-05-17 SAMS CLUB - #6620 FOLSOM CA             `     $   47.32
-    ## 69 2017-04-26 AMAZON MKTPLACE PMTS AMZN.COM/BILLWA    `     $   32.88
-    ## 70 2017-04-21 SAMS CLUB - #6620 FOLSOM CA             `     $    8.39
-    ## 71 2017-04-21 SAMS CLUB - #6620 FOLSOM CA             `     $   87.80
-    ## 72 2017-04-13 AMAZON MKTPLACE PMTS AMZN.COM/BILLWA    `     $   18.46
-    ## 73 2017-04-11 SAMS CLUB - #6620 FOLSOM CA             `     $   60.37
-    ## 74 2017-04-11 SAMS CLUB - #6620 FOLSOM CA             `     $   87.60
-    ## 75 2017-04-08 IKEA WEST SACRAMENTO WEST SACRAMENCA    `     $   28.06
-    ## 76 2017-03-15 AMAZON MKTPLACE PMTS AMZN.COM/BILLWA    `     $   52.97
-    ## 77 2017-03-08 SAMS CLUB - #6620 FOLSOM CA             `     $   91.54
-    ## 78 2017-03-06 SAMSCLUB.COM 888-746-7726 AR            `     $   24.51
-    ## 79 2017-03-03 AMAZON MKTPLACE PMTS AMZN.COM/BILLWA    `     $  245.96
-    ## 80 2017-03-03 AMAZON MKTPLACE PMTS AMZN.COM/BILLWA    `     $   54.49
-    ## 81 2017-02-28 SAMS CLUB - #6620 FOLSOM CA             `     $  115.40
-    ## 82 2017-02-23 AMAZON MKTPLACE PMTS AMZN.COM/BILLWA    `     $   59.98
-    ## 83 2017-02-22 AMAZON MKTPLACE PMTS AMZN.COM/BILLWA    `     $   18.51
-    ## 84 2017-02-15 AMAZON MKTPLACE PMTS AMZN.COM/BILLWA    `     $    9.42
-    ## 85 2017-02-14 CARTRIDGE WORLD # EL DORADO HILCA       `     $  179.54
-    ## 86 2017-02-10 SAMS CLUB - #6620 FOLSOM CA             `     $  123.49
-    ## 87 2017-02-04 AMAZON MKTPLACE PMTS AMZN.COM/BILLWA    `     $    8.07
-    ## 88 2017-02-04 AMAZON MKTPLACE PMTS AMZN.COM/BILLWA    `     $  160.41
-    ## 89 2017-01-26 AMAZON MKTPLACE PMTS AMZN.COM/BILLWA    `     $  102.27
-    ## 90 2017-01-03 PAYPAL *ACCESSDISPLAYGR 516-678-7772 NY `     $   70.84
+    ## # A tibble: 37 x 4
+    ##    Date       Original.Description                 z     Amount   
+    ##    <date>     <fct>                                <chr> <chr>    
+    ##  1 2018-12-28 BEST BUY 00003491 ELK GROVE CA       `     $   26.92
+    ##  2 2018-12-12 A LA MODE, INC 800-252-6633 FL       `     $  632.83
+    ##  3 2018-12-10 CARTRIDGE WORLD #0796 916-9397384 CA `     $  134.34
+    ##  4 2018-10-27 SAMSCLUB #6620 FOLSOM CA             `     $   44.28
+    ##  5 2018-10-22 SAMSCLUB #6620 FOLSOM CA             `     $   38.88
+    ##  6 2018-10-20 SAMSCLUB #6620 FOLSOM CA             `     $   70.80
+    ##  7 2018-10-20 SAMS CLUB #6620 FOLSOM CA            `     $  119.07
+    ##  8 2018-10-20 SAMS CLUB #6620 FOLSOM CA            `     $   11.01
+    ##  9 2018-10-04 SAMSCLUB #6620 FOLSOM CA             `     $  152.41
+    ## 10 2018-09-15 SAMS CLUB #6620 FOLSOM CA            `     $  109.11
+    ## 11 2018-06-23 SAMSCLUB #6620 FOLSOM CA             `     $   32.30
+    ## 12 2018-06-23 SAMS CLUB #6620 FOLSOM CA            `     $   14.52
+    ## 13 2018-06-22 SAMSCLUB #6620 FOLSOM CA             `     $  101.11
+    ## 14 2018-06-12 SAMSCLUB #6620 FOLSOM CA             `     $   87.72
+    ## 15 2018-06-12 SAMSCLUB #6620 FOLSOM CA             `     $   69.66
+    ## 16 2018-05-30 SAMS CLUB #6620 FOLSOM CA            `     $  177.75
+    ## 17 2018-05-26 SAMSCLUB #6620 FOLSOM CA             `     $   21.54
+    ## 18 2018-05-26 SAMSCLUB #6620 FOLSOM CA             `     $  162.49
+    ## 19 2018-04-27 CARTRIDGE WORLD # EL DORADO HILCA    `     $  223.90
+    ## 20 2018-04-03 SAMSCLUB #6620 FOLSOM CA             `     $   12.91
+    ## 21 2018-03-22 SAMS CLUB #6620 FOLSOM CA            `     $    4.45
+    ## 22 2018-03-14 SAMS CLUB #6620 FOLSOM CA            `     $   27.40
+    ## 23 2018-03-07 SAMS CLUB #6620 FOLSOM CA            `     $  103.89
+    ## 24 2018-02-27 SAMSCLUB #6620 FOLSOM CA             `     $   58.35
+    ## 25 2018-02-20 AMAZON MKTPLACE PMTS AMZN.COM/BILLWA `     $   27.76
+    ## 26 2018-02-14 SAMSCLUB #6620 FOLSOM CA             `     $   35.43
+    ## 27 2018-02-14 SAMS CLUB #6620 FOLSOM CA            `     $   41.41
+    ## 28 2018-02-10 SAMSCLUB #6620 FOLSOM CA             `     $   59.80
+    ## 29 2018-02-09 SAMS CLUB #6620 FOLSOM CA            `     $    3.96
+    ## 30 2018-02-09 SAMSCLUB #6620 FOLSOM CA             `     $   45.66
+    ## 31 2018-01-23 RSTUDIO, INC. RSTUDIO.COM MA         `     $    9.00
+    ## 32 2018-01-22 AMAZON MKTPLACE PMTS AMZN.COM/BILLWA `     $    9.99
+    ## 33 2018-01-12 SAMS CLUB #6620 FOLSOM CA            `     $   56.19
+    ## 34 2018-01-02 SAMSCLUB #6620 FOLSOM CA             `     $   61.85
+    ## 35 2018-01-02 SAMSCLUB #6620 FOLSOM CA             `     $  144.94
+    ## 36 2018-01-02 SAMS CLUB #6620 FOLSOM CA            `     $   31.06
+    ## 37 2018-01-02 SAMSCLUB #6620 FOLSOM CA             `     $    5.75
 
     print(paste("Total paid to Office Supplies = $",sum(d8$Amount),sep = ""))
 
-    ## [1] "Total paid to Office Supplies = $6810.31"
+    ## [1] "Total paid to Office Supplies = $2970.44"
 
 ### Charity
 
@@ -574,12 +474,12 @@
 
     ## # A tibble: 1 x 4
     ##   Date       Description z     Amount     
-    ##   <date>     <fctr>      <chr> <chr>      
-    ## 1 2017-09-14 Lds Church  `     $  13000.00
+    ##   <date>     <fct>       <chr> <chr>      
+    ## 1 2018-12-07 LDS Church  `     $   8500.00
 
     print(paste("Total paid to Charity = $",sum(d6$Amount),sep = ""))
 
-    ## [1] "Total paid to Charity = $13000"
+    ## [1] "Total paid to Charity = $8500"
 
 ### Doctor&Dentist
 
@@ -591,22 +491,13 @@
     d77$Amount<- sprintf("$ %7.2f", d77$Amount)
     print(d77,n=nrow(d77))
 
-    ## # A tibble: 9 x 5
-    ##   Date       Category Description          z     Amount   
-    ##   <date>     <fctr>   <fctr>               <chr> <chr>    
-    ## 1 2017-10-02 Doctor   Eye Exam             `     $  101.96
-    ## 2 2017-10-02 Doctor   Lenscrafters         `     $ 1210.62
-    ## 3 2017-09-26 Doctor   Eye Exam             `     $  101.96
-    ## 4 2017-06-05 Dentist  Pleasant Valley Apts `     $  540.00
-    ## 5 2017-05-08 Dentist  Pleasant Valley Apts `     $  141.00
-    ## 6 2017-05-01 Dentist  Forrest R Boozer DDS `     $  149.00
-    ## 7 2017-04-24 Dentist  Pleasant Valley Apts `     $  239.00
-    ## 8 2017-04-14 Dentist  Forrest R Boozer DDS `     $  149.00
-    ## 9 2017-03-24 Doctor   In Kime Performance  `     $   50.00
+    ## # A tibble: 0 x 5
+    ## # ... with 5 variables: Date <date>, Category <fct>, Description <fct>,
+    ## #   z <chr>, Amount <chr>
 
     print(paste("Total paid to Doctor and Dentist = $",sum(d7$Amount),sep = ""))
 
-    ## [1] "Total paid to Doctor and Dentist = $2682.54"
+    ## [1] "Total paid to Doctor and Dentist = $0"
 
 ### Driver Cost
 
@@ -618,19 +509,14 @@
     d88$Amount<- sprintf("$ %7.2f", d88$Amount)
     print(d88,n=nrow(d88))
 
-    ## # A tibble: 6 x 4
+    ## # A tibble: 1 x 4
     ##   Date       Original.Description z     Amount   
-    ##   <date>     <fctr>               <chr> <chr>    
-    ## 1 2017-12-29 Check 1583           `     $ 2000.00
-    ## 2 2017-12-29 Check 1582           `     $ 4558.00
-    ## 3 2017-12-20 Check 1581           `     $  250.00
-    ## 4 2017-07-07 Check 1571           `     $  750.00
-    ## 5 2017-05-01 Check 1566           `     $  750.00
-    ## 6 2017-02-10 Check 1551           `     $  850.00
+    ##   <date>     <fct>                <chr> <chr>    
+    ## 1 2018-01-05 Check 1584           `     $ 1000.00
 
     print(paste("Total paid to Driver costs = $",sum(d8$Amount),sep = ""))
 
-    ## [1] "Total paid to Driver costs = $9158"
+    ## [1] "Total paid to Driver costs = $1000"
 
 ### Estimated Federal & State tax payments
 
@@ -642,18 +528,14 @@
     dd77$Amount<- sprintf("$ %7.2f", dd77$Amount)
     print(dd77,n=nrow(dd77))
 
-    ## # A tibble: 9 x 6
-    ##   Date       Category    Original.Description z     Amount    Notes 
-    ##   <date>     <fctr>      <fctr>               <chr> <chr>     <fctr>
-    ## 1 2017-09-25 Federal Tax Check 1574           `     $ 2500.00 ""    
-    ## 2 2017-09-22 State Tax   Check 1573           `     $  300.00 ""    
-    ## 3 2017-06-22 State Tax   Check 1569           `     $  300.00 ""    
-    ## 4 2017-06-21 Federal Tax Check 1570           `     $ 2500.00 ""    
-    ## 5 2017-06-19 State Tax   Check 1568           `     $  143.35 ""    
-    ## 6 2017-04-24 State Tax   Check 1564           `     $  949.00 ""    
-    ## 7 2017-04-24 State Tax   Check 1563           `     $  319.00 ""    
-    ## 8 2017-04-17 Federal Tax Check 1562           `     $ 2378.00 ""    
-    ## 9 2017-04-17 Federal Tax Check 1561           `     $ 4000.00 ""
+    ## # A tibble: 5 x 6
+    ##   Date       Category  Original.Description              z     Amount Notes
+    ##   <date>     <fct>     <fct>                             <chr> <chr>  <fct>
+    ## 1 2018-09-18 Federal ~ Check 1603                        `     $ 250~ ""   
+    ## 2 2018-06-20 Federal ~ Check 1598                        `     $ 250~ ""   
+    ## 3 2018-04-19 State Tax FRANCHISE TAX BD DES:CASTTAXRFD ~ `     $  66~ ""   
+    ## 4 2018-04-17 Federal ~ Check 1594                        `     $ 282~ ""   
+    ## 5 2018-04-17 Federal ~ Check 1595                        `     $ 200~ ""
 
 ### Property and other taxes
 
@@ -665,15 +547,13 @@
     d88$Amount<- sprintf("$ %7.2f", d88$Amount)
     print(d88,n=nrow(d88))
 
-    ## # A tibble: 2 x 4
-    ##   Date       Original.Description                     z     Amount   
-    ##   <date>     <fctr>                                   <chr> <chr>    
-    ## 1 2017-12-09 EL DORADO CNTY TRES TAX 530-621-5815 CA  `     $ 2691.93
-    ## 2 2017-12-09 CONVENIENCE PAY SERVICES VERONICA.HUFFPA `     $   62.22
+    ## # A tibble: 0 x 4
+    ## # ... with 4 variables: Date <date>, Original.Description <fct>, z <chr>,
+    ## #   Amount <chr>
 
     print(paste("Total paid to property&other TAXES = $",sum(d8$Amount),sep = ""))
 
-    ## [1] "Total paid to property&other TAXES = $2754.15"
+    ## [1] "Total paid to property&other TAXES = $0"
 
 ### Business Services,Electronics & Software,Legal,Printing,Tuition
 
@@ -685,38 +565,68 @@
     d77$Amount<- sprintf("$ %7.2f", d77$Amount)
     print(d77,n=nrow(d77))
 
-    ## # A tibble: 28 x 4
-    ##    Date       Category               Description            Amount   
-    ##    <date>     <fctr>                 <fctr>                 <chr>    
-    ##  1 2017-12-19 Legal                  Appraisal Scope Ok     $   21.00
-    ##  2 2017-12-17 Legal                  Coursera               $   49.00
-    ##  3 2017-12-14 Business Services      Metrolist              $  144.17
-    ##  4 2017-12-13 Legal                  Appraisal Scope Ok     $   21.00
-    ##  5 2017-11-22 Legal                  Appraisal Scope Ok     $   21.00
-    ##  6 2017-11-22 Legal                  Appraisal Scope Ok     $   21.00
-    ##  7 2017-11-21 Legal                  Assurant Appraisals Lx $    6.40
-    ##  8 2017-11-17 Legal                  Coursera               $   49.00
-    ##  9 2017-11-05 Business Services      Silicondust USA Inc    $   35.00
-    ## 10 2017-10-31 Legal                  Assurant Appraisals Lx $    6.40
-    ## 11 2017-10-23 Legal                  Rstudio Ma             $    9.00
-    ## 12 2017-10-17 Legal                  Assurant Appraisals Lx $    6.40
-    ## 13 2017-10-08 Electronics & Software Dropbox                $   99.00
-    ## 14 2017-09-26 Legal                  Assurant Appraisals Lx $    6.40
-    ## 15 2017-09-19 Business Services      Metrolist              $  144.17
-    ## 16 2017-09-12 Legal                  Assurant Appraisals Lx $   12.80
-    ## 17 2017-07-07 Business Services      The Bead Shoppe        $   23.81
-    ## 18 2017-06-15 Business Services      Metrolist              $  144.17
-    ## 19 2017-05-23 Printing               Leanpub Ca             $   30.98
-    ## 20 2017-05-05 Legal                  Coursera               $   49.00
-    ## 21 2017-04-13 Legal                  Intuit TurboTax        $   59.99
-    ## 22 2017-04-13 Legal                  Intuit TurboTax        $   24.99
-    ## 23 2017-03-27 Printing               Leanpub Ca             $   15.00
-    ## 24 2017-03-10 Business Services      Metrolist              $  144.17
-    ## 25 2017-03-05 Printing               Coursera               $   49.00
-    ## 26 2017-02-24 Printing               Udemy                  $   10.00
-    ## 27 2017-02-07 Printing               Leanpub Ca             $   10.00
-    ## 28 2017-02-04 Legal                  Coursera               $   49.00
+    ## # A tibble: 58 x 4
+    ##    Date       Category          Description                Amount   
+    ##    <date>     <fct>             <fct>                      <chr>    
+    ##  1 2018-12-23 Business Services Rstudio Rstudio.com Ma     $    9.00
+    ##  2 2018-12-22 Business Services Columbia Candy Kitchen Inc $   77.45
+    ##  3 2018-12-19 Business Services Appraisal Scope Ok         $   21.00
+    ##  4 2018-12-12 Business Services Appraisal Scope Ok         $   21.00
+    ##  5 2018-12-07 Business Services Metrolist                  $  144.17
+    ##  6 2018-12-01 Business Services Gsuite Hulbert Cc          $   20.00
+    ##  7 2018-11-23 Business Services Rstudio Rstudio.com Ma     $    9.00
+    ##  8 2018-11-05 Business Services Silicondust USA Inc        $   35.00
+    ##  9 2018-11-02 Business Services Gsuite Hulbert Cc          $   20.00
+    ## 10 2018-10-31 Legal             Udemy                      $   17.00
+    ## 11 2018-10-23 Business Services Rstudio Rstudio.com Ma     $    9.00
+    ## 12 2018-10-12 Legal             Udemy                      $   19.98
+    ## 13 2018-10-09 Business Services Assurant Appraisals Lx     $    6.40
+    ## 14 2018-10-07 Business Services Dropbox                    $   99.00
+    ## 15 2018-10-02 Business Services Assurant Appraisals Lx     $    6.40
+    ## 16 2018-10-01 Business Services Gsuite Hulbert Cc          $   20.00
+    ## 17 2018-09-25 Legal             Udemy                      $   13.99
+    ## 18 2018-09-23 Business Services Rstudio Rstudio.com Ma     $    9.00
+    ## 19 2018-09-18 Business Services Assurant Appraisals Lx     $   12.80
+    ## 20 2018-09-14 Business Services Metrolist                  $  144.17
+    ## 21 2018-09-11 Business Services Assurant Appraisals Lx     $    6.40
+    ## 22 2018-09-04 Business Services Assurant Appraisals Lx     $    6.40
+    ## 23 2018-09-01 Business Services Gsuite Hulbert Cc          $   20.00
+    ## 24 2018-08-23 Business Services Rstudio Rstudio.com Ma     $    9.00
+    ## 25 2018-08-21 Business Services Assurant Appraisals Lx     $    6.40
+    ## 26 2018-08-18 Business Services Appraisal Scope Ok         $   21.00
+    ## 27 2018-08-18 Business Services Appraisal Scope Ok         $   21.00
+    ## 28 2018-08-16 Business Services Appraisal Scope Ok         $   21.00
+    ## 29 2018-08-02 Business Services Appraisal Scope Ok         $   21.00
+    ## 30 2018-08-02 Business Services Appraisal Scope Ok         $   21.00
+    ## 31 2018-08-01 Business Services Google                     $   20.00
+    ## 32 2018-07-23 Business Services Rstudio Rstudio.com Ma     $    9.00
+    ## 33 2018-07-10 Business Services Appraisal Scope Ok         $   21.00
+    ## 34 2018-07-06 Business Services Appraisal Scope Ok         $   21.00
+    ## 35 2018-06-23 Business Services Rstudio Rstudio.com Ma     $    9.00
+    ## 36 2018-06-14 Business Services Appraisal Scope Ok         $   21.00
+    ## 37 2018-06-13 Business Services Metrolist                  $  144.17
+    ## 38 2018-06-07 Business Services Cityofsac Parknggarage     $    4.50
+    ## 39 2018-06-07 Business Services Cityofsac Ips Pkgmeter     $    5.25
+    ## 40 2018-06-07 Business Services Appraisal Scope Ok         $    6.00
+    ## 41 2018-06-04 Business Services Appraisal Scope Ok         $   21.00
+    ## 42 2018-05-23 Business Services Rstudio Rstudio.com Ma     $    9.00
+    ## 43 2018-05-04 Business Services Appraisal Scope Ok         $   21.00
+    ## 44 2018-04-27 Legal             Bureau Real Estate         $  640.00
+    ## 45 2018-04-24 Business Services Appraisal Scope Ok         $   21.00
+    ## 46 2018-04-23 Business Services Rstudio Rstudio.com Ma     $    9.00
+    ## 47 2018-04-19 Business Services Appraisal Scope Ok         $   21.00
+    ## 48 2018-04-17 Business Services Coursera                   $   49.00
+    ## 49 2018-04-12 Legal             Intuit TurboTax            $   84.98
+    ## 50 2018-04-10 Business Services Coursera                   $   49.00
+    ## 51 2018-04-06 Business Services Mercury                    $   14.50
+    ## 52 2018-03-23 Business Services Rstudio Rstudio.com Ma     $    9.00
+    ## 53 2018-03-17 Business Services Coursera                   $   49.00
+    ## 54 2018-03-15 Business Services Metrolist                  $  144.17
+    ## 55 2018-02-23 Business Services Rstudio Rstudio.com Ma     $    9.00
+    ## 56 2018-02-17 Business Services Coursera                   $   49.00
+    ## 57 2018-01-17 Legal             Coursera                   $   49.00
+    ## 58 2018-01-16 Business Services Assurant Appraisals Lx     $    6.40
 
     print(paste("Total paid to Various Business expenses = $",sum(d7$Amount),sep = ""))
 
-    ## [1] "Total paid to Various Business expenses = $1261.85"
+    ## [1] "Total paid to Various Business expenses = $2383.53"
